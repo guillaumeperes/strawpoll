@@ -1,3 +1,3 @@
 # strawpoll
-Strawpoll IDBGI
+Strawpoll IBGBI
 Guillaume PERES, Sébastien VERNEYRE, Adam ATTAFI

@@ -7,106 +7,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
   <title>Strawpoll</title>
-  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/t4t5/sweetalert/32bd141c/dist/sweetalert.css">
-  <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="semantic/semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="strawpoll.css">
   <script src="https://cdn.rawgit.com/t4t5/sweetalert/32bd141c/dist/sweetalert.min.js"></script>
-  <script src="semantic/dist/semantic.min.js"></script>
-
-  <style type="text/css">
-
-    .hidden.menu {
-      display: none;
-    }
-
-    .masthead.segment {
-      min-height: 700px;
-      padding: 1em 0em;
-    }
-    .masthead .logo.item img {
-      margin-right: 1em;
-    }
-    .masthead .ui.menu .ui.button {
-      margin-left: 0.5em;
-    }
-    .masthead h1.ui.header {
-      margin-top: 3em;
-      margin-bottom: 0em;
-      font-size: 4em;
-      font-weight: normal;
-    }
-    .masthead h2 {
-      font-size: 1.7em;
-      font-weight: normal;
-    }
-
-    .ui.vertical.stripe {
-      padding: 8em 0em;
-    }
-    .ui.vertical.stripe h3 {
-      font-size: 2em;
-    }
-    .ui.vertical.stripe .button + h3,
-    .ui.vertical.stripe p + h3 {
-      margin-top: 3em;
-    }
-    .ui.vertical.stripe .floated.image {
-      clear: both;
-    }
-    .ui.vertical.stripe p {
-      font-size: 1.33em;
-    }
-    .ui.vertical.stripe .horizontal.divider {
-      margin: 3em 0em;
-    }
-
-    .quote.stripe.segment {
-      padding: 0em;
-    }
-    .quote.stripe.segment .grid .column {
-      padding-top: 5em;
-      padding-bottom: 5em;
-    }
-
-    .footer.segment {
-      padding: 5em 0em;
-    }
-
-    .secondary.pointing.menu .toc.item {
-      display: none;
-    }
-
-    @media only screen and (max-width: 700px) {
-      .ui.fixed.menu {
-        display: none !important;
-      }
-      .secondary.pointing.menu .item,
-      .secondary.pointing.menu .menu {
-        display: none;
-      }
-      .secondary.pointing.menu .toc.item {
-        display: block;
-      }
-      .masthead.segment {
-        min-height: 350px;
-      }
-      .masthead h1.ui.header {
-        font-size: 2em;
-        margin-top: 1.5em;
-      }
-      .masthead h2 {
-        margin-top: 0.5em;
-        font-size: 1.5em;
-      }
-    }
-
-    .btn_header{
-      text-align: right;
-    padding: 1em;
-    }
-
-
-  </style>
+  <script src="nanoajax.min.js"></script>
+  <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
+  <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+  <script src="semantic/semantic.min.js"></script>
+  <script src="strawpoll.js"></script>
 </head>
 <body>
 
@@ -127,7 +36,7 @@
     <div class="ui vertical masthead center aligned segment">
 
       <div class="ui text container">
-        <h1 class="ui header">Strawpoll</h1>
+        <h1 class="ui header"><span class="logoFirst">Straw</span><span class="logoSecond">poll</span></h1>
         <div class="ui divider"></div>
 
         <form class="ui form">
@@ -138,34 +47,38 @@
             </div>
           </div>
 
-          <div class="field">
-            <div class="ui fluid corner labeled input">
-              <input class="inp_answer" type="text" placeholder="Entrez une réponse...">
-              <div class="ui corner label">
-                <i class="asterisk icon"></i>
+          <div id="answers_div">
+            <div class="field">
+              <div class="ui fluid corner labeled input">
+                <input class="inp_answer" type="text" placeholder="Entrez une réponse...">
+                <div class="ui corner label">
+                  <i class="asterisk icon"></i>
+                </div>
               </div>
             </div>
+
+            <div class="field">
+              <div class="ui fluid corner labeled input">
+                <input class="inp_answer" type="text" placeholder="Entrez une deuxième réponse...">
+                <div class="ui corner label">
+                  <i class="asterisk icon"></i>
+                </div>
+              </div>
+            </div>
+            
           </div>
 
-          <div class="field">
-            <div class="ui fluid corner labeled input">
-              <input class="inp_answer" type="text" placeholder="Entrez une deuxième réponse...">
-              <div class="ui corner label">
-                <i class="asterisk icon"></i>
-              </div>
-            </div>
-          </div>
 
           <div class="ui segment">
             <div class="ui slider checkbox">
-              <input type="checkbox" name="public">
+              <input id="multipleAnswers" type="checkbox" name="public">
               <label>Plusieurs choix possible</label>
             </div>
           </div>
 
           <div class="field">
-            <div id="btn_save" class="ui basic huge primary button" data-tooltip="Sauvegarder le sondage pour le publier plus tard" data-position="bottom center">Sauvegarder <i class="right save icon"></i></div>
-            <div id="btn_submit" class="ui huge primary button">Publier <i class="right arrow icon"></i></div>
+            <div id="btn_save" class="ui huge blue button" data-tooltip="Sauvegarder le sondage pour le publier plus tard" data-position="bottom center">Sauvegarder <i class="right save icon"></i></div>
+            <div id="btn_submit" class="ui huge blue button">Publier <i class="right arrow icon"></i></div>
           </div>
         </form>
       </div>
@@ -178,9 +91,9 @@
           <div class="five wide column">
             <h4 class="ui inverted header">Strawpoll</h4>
             <div class="ui inverted link list">
-              <a href="#" class="item">Code source</a>
-              <a href="#" class="item">Faire un don</a>
-              <a href="#" class="item">Contact</a>
+              <a href="https://github.com/guillaumeperes/strawpoll_backoffice" target="_blank" class="item">Code source</a>
+              <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=adam.attafi@gmail.com&item_name=Don Strawpoll&item_number=1&amount=99.99&currency_code=EUR" target="_blank" class="item">Faire un don</a>
+              <a href="mailto:adam.attafi@gmail.com" class="item">Contact</a>
               <a href="#" class="item">Conditions d'utilisation</a>
             </div>
           </div>
@@ -195,36 +108,10 @@
 
 
   <script>
-    $(document).ready(function() {
+    document.addEventListener("DOMContentLoaded", function(){
       var that = this;
 
-      /* Compte le nombre de réponse entrées par l'utilisateur */
-      var countAnswers = function(){
-        return $('.inp_answer[type="text"]').filter(function(){ return this.value.length > 0}).length;
-      };
-
-      /* Vérifie que la question à été entrée et qu'il y a au moins 2 réponses */
-      var isPollValid = function(){
-        if($("#inp_question").val() == "" || countAnswers()<2)return false;
-        else return true;
-      };
-
-      /* Le listener pour l'envoie du sondage */
-      $('#btn_submit').on("click", function(){
-        if(!isPollValid()){
-          /*$('#inp_question').parent().addClass("error");
-          $('#inp_question').transition('shake');*/
-          sweetAlert("Oops...", "Il faut entrer une question et au moins 2 réponses!", "error");
-        }
-        else swal("C'est bon!", "Votre sondage a été publié!", "success");
-      });
-
-
-      /* Le listener pour la sauvegarde du sondage */
-      $('#btn_save').on("click", function(){
-        swal("C'est bon!", "Votre sondage a été sauvegardé!", "success");
-      });
-
+      strawpoll.init();
       /*$('#inp_question').on('input', function(){
         $(this).parent().removeClass("error");
       });*/

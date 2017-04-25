@@ -34,13 +34,13 @@
 
     },
     getPoll: function(id){
-      nanoajax.ajax({url:'https://www.guillaumeperes.com/api/poll/'+id}, function (code, responseText) {
+      /*nanoajax.ajax({url:'https://www.guillaumeperes.com/api/poll/'+id}, function (code, responseText) {
         var poll = JSON.parse(responseText);
 
 
 
 
-      });
+      });*/
     },
     submitPoll: function(question, answersArray, duplicationCheck, multipleAnswers){
       if(!this.utils.isPollValid()){
@@ -59,10 +59,7 @@
           "answers": answersArray
         };
 
-        nanoajax.ajax({url: 'https://strawpoll.guillaumeperes.fr/api/poll/', method: 'POST', body: JSON.stringify(data)}, function (code, responseText, request) {
-            /*# code is response code
-            # responseText is response body as a string
-            # request is the xmlhttprequest, which has `getResponseHeader(header)` function*/
+        /*nanoajax.ajax({url: 'https://strawpoll.guillaumeperes.fr/api/poll/', method: 'POST', body: JSON.stringify(data), cors:true}, function (code, responseText, request) {
             if(code == 200){
               var res = JSON.parse(responseText);
               if(res.code == "200")swal("C'est bon!", res.message, "success");
@@ -72,7 +69,21 @@
               sweetAlert("Oops...", "La requête n'a pas pu être envoyée!", "error");
             }
             
+        });*/
+
+        aja()
+        .method('post')
+        .url('https://strawpoll.guillaumeperes.fr/api/poll/')
+        .body(data)
+        .on('success', function(res){
+            var res = JSON.parse(res);
+            if(res.code == "200")swal("C'est bon!", res.message, "success");
+            else sweetAlert("Oops...", res.error, "error");
         })
+         .on('error', function(res){
+            sweetAlert("Oops...", "La requête n'a pas pu être envoyée!", "error");
+        })
+        .go();
         
       }
     },

@@ -25,8 +25,8 @@ export default class CreatePollForm extends Component {
 						<AnswersList minimum="2"></AnswersList>
 						<PollOptions></PollOptions>
 						<Container textAlign="center">
-							<SavePollButton tooltip="Sauvegarder le sondage pour le publier plus tard">Sauvegarder <Icon name="save right"></Icon></SavePollButton>
-							<PublishPollButton>Publier <Icon name="arrow right"></Icon></PublishPollButton>
+							<PublishPollButton onClick={this.publishPoll}>Publier</PublishPollButton>
+							<SavePollButton tooltip="Sauvegarder le sondage pour le publier plus tard"><Icon name="save"></Icon> Sauvegarder</SavePollButton>
 						</Container>
 					</Form>
 				</Container>

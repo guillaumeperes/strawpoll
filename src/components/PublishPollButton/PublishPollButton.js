@@ -6,7 +6,7 @@ import "./PublishPollButton.css";
 export default class PublishPollButton extends Component {
 	render() {
 		return (
-			<Button size="huge">{this.props.children}</Button>
+			<Button size="huge" primary>{this.props.children}</Button>
 		);
 	}
 }

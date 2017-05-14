@@ -1,6 +1,7 @@
 import React from "react";
 import { Component } from "react";
 import { Button } from "semantic-ui-react";
+import { Form } from "semantic-ui-react";
 import AnswerInput from "../AnswerInput/AnswerInput";
 import { connect } from "react-redux";
 import { toggleAnswerDeletionStatus } from "../../actions.js";
@@ -68,10 +69,10 @@ class AnswersList extends Component {
 
 	render() {
 		return (
-			<div>
+			<Form.Field>
 				{this.state.answers}
 				<Button fluid onClick={this.addAnswer}> Ajouter une réponse</Button>
-			</div>
+			</Form.Field>
 		);
 	}
 }

@@ -12,7 +12,7 @@ export default class PollOptions extends Component {
 				<Segment textAlign="left" tertiary>
 					<ToggleInput label="Autoriser plusieurs réponses"></ToggleInput>
 					<ToggleInput label="Utiliser un captcha pour réduire le spam"></ToggleInput>
-					<DuplicationCheckSelect label="Dupplication" placeholder="placeholder"></DuplicationCheckSelect>
+					<DuplicationCheckSelect label="Contrôler les réponses multiples"></DuplicationCheckSelect>
 				</Segment>
 			</Form.Field>
 		);

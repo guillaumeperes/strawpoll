@@ -10,3 +10,4 @@ Ce client est développé à l'aide de la librairie ReactJS développée par Fac
 
 2. Installer les dépendances NodeJS en lançant la commande npm install. 
 
+TEST

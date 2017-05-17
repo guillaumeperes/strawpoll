@@ -3,9 +3,11 @@ import { Component } from "react";
 import axios from "axios";
 import { Dropdown } from "semantic-ui-react";
 import { Form } from "semantic-ui-react";
+import { connect } from "react-redux";
+import { udpateDuplicationCheck } from "../../actions.js";
 import "./DuplicationCheckSelect.css";
 
-export default class DuplicationCheckSelect extends Component {
+class DuplicationCheckSelect extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -13,6 +15,7 @@ export default class DuplicationCheckSelect extends Component {
 			"isLoading": false
 		}
 		this.duplicationChecksUrl = "https://api.strawpoll.guillaumeperes.fr/api/duplicationchecks";
+		this.handleChange = this.handleChange.bind(this);
 	}
 
 	componentDidMount() {
@@ -42,14 +45,37 @@ export default class DuplicationCheckSelect extends Component {
 		});
 	}
 
+	handleChange(event, data) {
+		if (typeof(data.value) === "number") {
+			this.props.udpateDuplicationCheckInStore(data.value);
+		}
+	}
+
 	render() {
+		var dropdown;
 		if (this.state.isLoading) {
-			var dropdown = <Dropdown placeholder={this.props.label} loading selection fluid options={this.state.duplicationChecks} />
+			dropdown = <Dropdown placeholder={this.props.label} loading selection fluid options={this.state.duplicationChecks} />
 		} else {
-			var dropdown = <Dropdown placeholder={this.props.label} selection fluid options={this.state.duplicationChecks} />
+			dropdown = <Dropdown placeholder={this.props.label} selection fluid options={this.state.duplicationChecks} onChange={this.handleChange} />
 		}
 		return (
 			<Form.Field>{dropdown}</Form.Field>
 		);
 	}
 }
+
+let mapStateToProps = function(state) {
+	return {};
+};
+
+let mapDispatchToProps = function(dispatch) {
+	return {
+		"udpateDuplicationCheckInStore": function(id) {
+			dispatch(udpateDuplicationCheck(id));
+		}
+	};
+};
+
+DuplicationCheckSelect = connect(mapStateToProps, mapDispatchToProps)(DuplicationCheckSelect);
+
+export default DuplicationCheckSelect;

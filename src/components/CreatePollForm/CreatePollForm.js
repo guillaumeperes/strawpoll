@@ -21,11 +21,11 @@ export default class CreatePollForm extends Component {
 					<Header as="h1"><span className="logoFirst">Straw</span><span className="logoSecond">poll</span></Header>
 					<Divider horizontal inverted></Divider>
 					<Form>
-						<QuestionInput id="inp_question" placeholder="Entrez votre question"></QuestionInput>
+						<QuestionInput placeholder="Entrez votre question"></QuestionInput>
 						<AnswersList minimum="2"></AnswersList>
 						<PollOptions></PollOptions>
 						<Container textAlign="center">
-							<PublishPollButton onClick={this.publishPoll}>Publier</PublishPollButton>
+							<PublishPollButton>Publier</PublishPollButton>
 							<SavePollButton tooltip="Sauvegarder le sondage pour le publier plus tard"><Icon name="save"></Icon> Sauvegarder</SavePollButton>
 						</Container>
 					</Form>

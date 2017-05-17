@@ -19,7 +19,6 @@ export default class Footer extends Component {
 								<List inverted link>
 									<List.Item as="a" href="https://github.com/guillaumeperes/strawpoll_frontend" target="_blank">Code source</List.Item>
 									<List.Item as="a" href="https://github.com/guillaumeperes/strawpoll_backoffice" target="_blank">API</List.Item>
-									<List.Item as="a" href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=adam.attafi@gmail.com&item_name=Don Strawpoll&item_number=1&amount=99.99&currency_code=EUR" target="_blank">Faire un don</List.Item>
 									<List.Item as="a" href="mailto:adam.attafi@gmail.com">Contact</List.Item>
 									<List.Item as="a" href="#">Conditions d'utilisation</List.Item>
 								</List>

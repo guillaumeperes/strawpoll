@@ -8,8 +8,8 @@ import { toggleAnswerDeletionStatus } from "../../actions.js";
 import "./AnswersList.css";
 
 class AnswersList extends Component {
-	constructor(props, context) {
-		super(props, context)
+	constructor(props) {
+		super(props)
 		this.state = {
 			"answers": [],
 			"position": 0

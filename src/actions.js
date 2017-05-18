@@ -1,6 +1,7 @@
 // Types d'actions
 
 export const ANSWER_DELETION = "ANSWER_DELETION"; // Suppression des champs de réponse
+export const UPDATE_MINIMUM_ANSWERS_COUNT = "UPDATE_MINIMUM_ANSWERS_COUNT"; // Nombre minimum de réponses
 export const SET_QUESTION_VALUE = "SET_QUESTION_VALUE"; // Mise à jour de la valeur de la question
 export const UPDATE_ANSWER_VALUE = "ADD_ANSWER_VALUE"; // Mise à jour de la valeur d'une réponse
 export const REMOVE_ANSWER_VALUE = "REMOVE_ANSWER_VALUE"; // Suppression de la valeur d'une réponse
@@ -17,6 +18,15 @@ export function toggleAnswerDeletionStatus(newStatus) {
 		return {
 			"type": ANSWER_DELETION,
 			"payload": newStatus
+		};
+	}
+}
+
+export function updateMinimumAnswersCount(value) {
+	if (typeof(value) === "number") {
+		return {
+			"type": UPDATE_MINIMUM_ANSWERS_COUNT,
+			"payload": value
 		};
 	}
 }

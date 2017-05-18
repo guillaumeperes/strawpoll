@@ -45,7 +45,7 @@ class PublishPollButton extends Component {
 		let answers = store.answers.filter(function(answer) {
 			return answer.answer.length > 0;
 		});
-		if (answers.length < 2) { // TODO utiliser le store pour stocker cette information
+		if (answers.length < this.props.minimumAnswersCount) {
 			swal({
 				"title": "Erreur",
 				"titleText": "Nombre de réponses insuffisant",
@@ -160,7 +160,8 @@ class PublishPollButton extends Component {
 
 let mapStateToProps = function(state) {
 	return {
-		"createPollForm": state.createPollForm.createPollForm
+		"createPollForm": state.createPollForm.createPollForm,
+		"minimumAnswersCount": state.answers.minimumAnswersCount
 	};
 }
 

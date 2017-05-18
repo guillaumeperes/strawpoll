@@ -5,6 +5,7 @@ import { Form } from "semantic-ui-react";
 import AnswerInput from "../AnswerInput/AnswerInput";
 import { connect } from "react-redux";
 import { toggleAnswerDeletionStatus } from "../../actions.js";
+import { updateMinimumAnswersCount } from "../../actions.js";
 import "./AnswersList.css";
 
 class AnswersList extends Component {
@@ -19,7 +20,7 @@ class AnswersList extends Component {
 	}
 
 	componentDidMount() {
-		let minimum = typeof(this.props.minimum) !== "undefined" ? this.props.minimum : 2;
+		let minimum = typeof(parseInt(this.props.minimum, 10)) === "number" ? parseInt(this.props.minimum, 10) : 2;
 		let answers = [];
 		for (var i = 0; i < minimum; i++) {
 			answers.push(<AnswerInput key={i} position={i} placeholder="Entrez une réponse" removeAnswerCallback={this.removeAnswer}></AnswerInput>);
@@ -28,8 +29,10 @@ class AnswersList extends Component {
 			"answers": answers,
 			"position": i
 		});
-		if (answers.length > 2) {
-			this.props.toggleAnswerDeletionStatus(true)
+		// Mises à jour du store
+		this.props.updateMinimumAnswersCountInStore(minimum);
+		if (answers.length > minimum) {
+			this.props.toggleAnswerDeletionStatus(true);
 		}
 	}
 
@@ -42,13 +45,13 @@ class AnswersList extends Component {
 			"answers": answers,
 			"position": position
 		});
-		if (answers.length > 2) {
+		if (answers.length > this.props.minimumAnswersCount) {
 			this.props.toggleAnswerDeletionStatus(true)
 		}
 	}
 
 	removeAnswer(answer) {
-		if (typeof(answer) !== "undefined" && typeof(answer.props.position) !== "undefined") {
+		if (typeof(answer) === "object" && typeof(answer.props.position) === "number") {
 			let answers = this.state.answers;
 			let position = answer.props.position;
 			let index = answers.findIndex(function(item) {
@@ -60,7 +63,7 @@ class AnswersList extends Component {
 					"answers": answers,
 					"position": this.state.position
 				});
-				if (answers.length <= 2) {
+				if (answers.length <= this.props.minimumAnswersCount) {
 					this.props.toggleAnswerDeletionStatus(false);
 				}
 			}
@@ -71,20 +74,25 @@ class AnswersList extends Component {
 		return (
 			<Form.Field>
 				{this.state.answers}
-				<Button fluid onClick={this.addAnswer}> Ajouter une réponse</Button>
+				<Button fluid onClick={this.addAnswer}>Ajouter une réponse</Button>
 			</Form.Field>
 		);
 	}
 }
 
 let mapStateToProps = function(state) {
-	return {};
+	return {
+		"minimumAnswersCount": state.answers.minimumAnswersCount
+	};
 };
 
 let mapDispatchToProps = function(dispatch) {
 	return {
 		"toggleAnswerDeletionStatus": function(newStatus) {
 			dispatch(toggleAnswerDeletionStatus(newStatus));
+		},
+		"updateMinimumAnswersCountInStore": function(value) {
+			dispatch(updateMinimumAnswersCount(value));
 		}
 	};
 };

@@ -1,4 +1,5 @@
 import { ANSWER_DELETION } from "./actions.js";
+import { UPDATE_MINIMUM_ANSWERS_COUNT } from "./actions.js";
 import { SET_QUESTION_VALUE } from "./actions.js";
 import { UPDATE_ANSWER_VALUE } from "./actions.js";
 import { REMOVE_ANSWER_VALUE } from "./actions.js";
@@ -13,6 +14,7 @@ import { combineReducers } from "redux";
 
 const initialState = {
 	"answerDeletionEnabled": false,
+	"minimumAnswersCount": 2,
 	"createPollForm": {
 		"duplicationCheckId": false,
 		"userId": false,
@@ -37,6 +39,13 @@ let answers = function(state, action) {
 				if (typeof(action.payload) === "boolean") {
 					return Object.assign({}, state, {
 						"answerDeletionEnabled": action.payload
+					});
+				}
+				break;
+			case UPDATE_MINIMUM_ANSWERS_COUNT: 
+				if (typeof(action.payload) === "number") {
+					return Object.assign({}, state, {
+						"minimumAnswersCount": action.payload
 					});
 				}
 				break;

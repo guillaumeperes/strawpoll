@@ -4,6 +4,7 @@ import { Button } from "semantic-ui-react";
 import { connect } from "react-redux";
 import axios from "axios";
 import swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
 import "./PublishPollButton.css";
 
 class PublishPollButton extends Component {

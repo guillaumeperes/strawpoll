@@ -1,11 +1,11 @@
 import React from "react";
 import { Component } from "react";
 import { Segment } from "semantic-ui-react";
-import { Header } from "semantic-ui-react";
 import { Divider } from "semantic-ui-react";
 import { Container } from "semantic-ui-react";
 import { Form } from "semantic-ui-react";
 import { Icon } from "semantic-ui-react";
+import AppTitle from "../AppTitle/AppTitle";
 import QuestionInput from "../QuestionInput/QuestionInput";
 import AnswersList from "../AnswersList/AnswersList";
 import PollOptions from "../PollOptions/PollOptions";
@@ -18,7 +18,7 @@ export default class CreatePollForm extends Component {
 		return (
 			<Segment id="CreatePoll" vertical textAlign="center">
 				<Container text>
-					<Header as="h1"><span className="logoFirst">Straw</span><span className="logoSecond">poll</span></Header>
+					<AppTitle></AppTitle>
 					<Divider horizontal inverted></Divider>
 					<Form>
 						<QuestionInput placeholder="Entrez votre question"></QuestionInput>

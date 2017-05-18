@@ -41,6 +41,7 @@ class PublishPollButton extends Component {
 				"confirmButtonText": "Fermer",
 				"showCloseButton": true
 			});
+			return;
 		}
 		let answers = store.answers.filter(function(answer) {
 			return answer.answer.length > 0;
@@ -53,14 +54,15 @@ class PublishPollButton extends Component {
 				"confirmButtonText": "Fermer",
 				"showCloseButton": true
 			});
+			return;
 		}
 		answers = answers.sort(function(a, b) {
 			if (a.position > b.position) {
 				return 1;
-			} else if (a.position == b.position) {
-				return 0;
-			} else if (a.position > b.position) {
+			} else if (a.position < b.position) {
 				return -1;
+			} else {
+				return 0;
 			}
 		});
 		data.answers = answers.map(function(answer) {

@@ -7,4 +7,9 @@ import reducers from "./reducers";
 import "semantic-ui-css/semantic.min.css";
 import "./index.css";
 
-ReactDOM.render(<Provider store={createStore(reducers)}><App /></Provider>, document.getElementById("root"));
+ReactDOM.render(
+	<Provider store={createStore(reducers)}>
+		<App />
+	</Provider>, 
+	document.getElementById("root")
+);

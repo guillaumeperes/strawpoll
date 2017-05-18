@@ -1,0 +1,9 @@
+#PageNotFound {
+	min-height: 700px;
+	padding: 1em 0em;
+}
+#PageNotFound h1 {
+	margin-bottom: 0em;
+	font-size: 4em;
+	font-weight: normal;
+}

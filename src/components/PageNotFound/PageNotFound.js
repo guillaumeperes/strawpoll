@@ -6,10 +6,18 @@ import { Icon } from "semantic-ui-react";
 import { Divider } from "semantic-ui-react";
 import { Header } from "semantic-ui-react";
 import { Button } from "semantic-ui-react";
+import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 import AppTitle from "../AppTitle/AppTitle";
 import "./PageNotFound.css";
 
-export default class PageNotFound extends Component {
+class PageNotFound extends Component {
+	static propTypes = {
+		"match": PropTypes.object.isRequired,
+		"location": PropTypes.object.isRequired,
+		"history": PropTypes.object.isRequired
+	};
+
 	constructor(props) {
 		super(props);
 		this.handleClick = this.handleClick.bind(this);
@@ -35,3 +43,7 @@ export default class PageNotFound extends Component {
 		);
 	}
 }
+
+PageNotFound = withRouter(PageNotFound);
+
+export default PageNotFound;

@@ -17,7 +17,8 @@ class PublishPollButton extends Component {
 	// TODO : ajouter le user id
 	publishPoll(event) {
 		event.preventDefault();
-		let store = this.props.createPollForm;
+		let self = this;
+		let store = self.props.createPollForm;
 		let data = {};
 
 		// Question
@@ -47,7 +48,7 @@ class PublishPollButton extends Component {
 		let answers = store.answers.filter(function(answer) {
 			return answer.answer.length > 0;
 		});
-		if (answers.length < this.props.minimumAnswersCount) {
+		if (answers.length < self.props.minimumAnswersCount) {
 			swal({
 				"title": "Erreur",
 				"titleText": "Nombre de réponses insuffisant",
@@ -123,26 +124,16 @@ class PublishPollButton extends Component {
 		data.is_draft = store.isDraft;
 
 		// Envoi des données du sondage
-		axios.post(this.savePollUrl, data).then(function(result) {
-			if (result.status === 200) {
-				swal({
-					"title": "Bravo",
-					"titleText": result.data.message,
-					"type": "success",
-					"confirmButtonText": "Fermer",
-					"showCloseButton": true
-				}).then(function() {
-					console.log("then");
-				});
-			} else {
-				swal({
-					"title": "Erreur",
-					"titleText": "Une erreur s'est produite",
-					"type": "error",
-					"confirmButtonText": "Fermer",
-					"showCloseButton": true
-				});
-			}
+		axios.post(self.savePollUrl, data).then(function(result) {
+			swal({
+				"title": "Bravo",
+				"titleText": result.data.message,
+				"type": "success",
+				"confirmButtonText": "Fermer",
+				"showCloseButton": true
+			}).then(function() {
+				console.log("then");
+			});
 		}).catch(function(error) {
 			swal({
 				"title": "Erreur",

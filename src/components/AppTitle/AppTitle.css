@@ -4,3 +4,15 @@
 #AppTitle .logoSecond {
 	color: cornsilk;
 }
+#AppTitle {
+	margin-bottom: 1em;
+	font-size: 4em;
+	font-weight: normal;
+}
+
+@media only screen and (max-width: 700px) {
+	#AppTitle {
+		font-size: 2em;
+		margin-top: 1.5em;
+	}
+}

@@ -4,13 +4,22 @@ import { Button } from "semantic-ui-react";
 import { connect } from "react-redux";
 import axios from "axios";
 import swal from "sweetalert2";
+import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 import "sweetalert2/dist/sweetalert2.min.css";
 import "./PublishPollButton.css";
 
 class PublishPollButton extends Component {
+	static propTypes = {
+		"match": PropTypes.object.isRequired,
+		"location": PropTypes.object.isRequired,
+		"history": PropTypes.object.isRequired
+	};
+
 	constructor(props) {
 		super(props);
 		this.savePollUrl = "https://api.strawpoll.guillaumeperes.fr/api/poll/";
+		this.respondPollPath = "/poll/:poll_id/";
 		this.publishPoll = this.publishPoll.bind(this);
 	}
 
@@ -125,14 +134,19 @@ class PublishPollButton extends Component {
 
 		// Envoi des données du sondage
 		axios.post(self.savePollUrl, data).then(function(result) {
+			if (typeof(result.data.data.poll_id) === "number") {
+				var next = self.respondPollPath.replace(":poll_id", result.data.data.poll_id);
+			}
 			swal({
 				"title": "Bravo",
 				"titleText": result.data.message,
 				"type": "success",
-				"confirmButtonText": "Fermer",
+				"confirmButtonText": "Continuer vers le sondage",
 				"showCloseButton": true
-			}).then(function() {
-				console.log("then");
+			}).then(function(response) {
+				if (typeof(next) !== "undefined") {
+					self.props.history.push(next); // Redirection vers la page de réponse
+				}
 			});
 		}).catch(function(error) {
 			swal({
@@ -160,5 +174,6 @@ let mapStateToProps = function(state) {
 }
 
 PublishPollButton = connect(mapStateToProps)(PublishPollButton);
+PublishPollButton = withRouter(PublishPollButton);
 
 export default PublishPollButton;

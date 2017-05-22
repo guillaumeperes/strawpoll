@@ -6,7 +6,7 @@ import "./AppTitle.css";
 export default class AppTitle extends Component {
 	render() {
 		return (
-			<Header id="AppTitle" as="h1"><span className="logoFirst">Straw</span><span className="logoSecond">poll</span></Header>
+			<Header id="AppTitle"><span className="logoFirst">Straw</span><span className="logoSecond">poll</span></Header>
 		);
 	}
 }

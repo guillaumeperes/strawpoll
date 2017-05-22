@@ -12,7 +12,7 @@ class DuplicationCheckSelect extends Component {
 		super(props);
 		this.state = {
 			"duplicationChecks": [],
-			"isLoading": false
+			"isLoading": true
 		}
 		this.duplicationChecksUrl = "https://api.strawpoll.guillaumeperes.fr/api/duplicationchecks";
 		this.handleChange = this.handleChange.bind(this);
@@ -25,7 +25,7 @@ class DuplicationCheckSelect extends Component {
 			"isLoading": true
 		});
 		axios.get(self.duplicationChecksUrl).then(function(result) {
-			if (result.status === 200 && typeof(result.data.duplication_checks) !== "undefined") {
+			if (typeof(result.data.duplication_checks) !== "undefined") {
 				let items = result.data.duplication_checks.map(function(item) {
 					return {
 						"value": item.id,
@@ -54,7 +54,7 @@ class DuplicationCheckSelect extends Component {
 	render() {
 		var dropdown;
 		if (this.state.isLoading) {
-			dropdown = <Dropdown placeholder={this.props.label} loading selection fluid options={this.state.duplicationChecks} />
+			dropdown = <Dropdown placeholder={this.props.label} loading disabled selection fluid options={this.state.duplicationChecks} />
 		} else {
 			dropdown = <Dropdown placeholder={this.props.label} selection fluid options={this.state.duplicationChecks} onChange={this.handleChange} />
 		}

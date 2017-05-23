@@ -23,6 +23,16 @@ class PublishPollButton extends Component {
 		this.publishPoll = this.publishPoll.bind(this);
 	}
 
+	throwSweetError(text) {
+		swal({
+			"title": "Erreur",
+			"titleText": text,
+			"type": "error",
+			"confirmButtonText": "Fermer",
+			"showCloseButton": true
+		});
+	}
+
 	// TODO : ajouter le user id
 	publishPoll(event) {
 		event.preventDefault();
@@ -30,41 +40,20 @@ class PublishPollButton extends Component {
 		let store = self.props.createPollForm;
 		let data = {};
 
-		// Question
+		// Question et liste des réponses
 		if (typeof(store.question) !== "string" || store.question.length === 0) {
-			swal({
-				"title": "Erreur",
-				"titleText": "Veuillez renseigner une question",
-				"type": "error",
-				"confirmButtonText": "Fermer",
-				"showCloseButton": true
-			});
+			self.throwSweetError("Veuillez renseigner une question");
 			return;
 		}
-		data.question = store.question;
-
-		// Liste des réponses
 		if (typeof(store.answers) !== "object") {
-			swal({
-				"title": "Erreur",
-				"titleText": "Format des réponses invalide",
-				"type": "error",
-				"confirmButtonText": "Fermer",
-				"showCloseButton": true
-			});
+			self.throwSweetError("Format des réponses invalide");
 			return;
 		}
 		let answers = store.answers.filter(function(answer) {
 			return answer.answer.length > 0;
 		});
 		if (answers.length < self.props.minimumAnswersCount) {
-			swal({
-				"title": "Erreur",
-				"titleText": "Nombre de réponses insuffisant",
-				"type": "error",
-				"confirmButtonText": "Fermer",
-				"showCloseButton": true
-			});
+			self.throwSweetError("Nombre de réponses insuffisant");
 			return;
 		}
 		answers = answers.sort(function(a, b) {
@@ -76,58 +65,40 @@ class PublishPollButton extends Component {
 				return 0;
 			}
 		});
-		data.answers = answers.map(function(answer) {
+		let question = {
+			"question": store.question,
+			"answers": []
+		};
+		question.answers = answers.map(function(answer) {
 			return answer.answer;
 		});
+		data.questions = [];
+		data.questions.push(question);
 
 		// Méthode de contrôle des votes multiples
 		if (typeof(store.duplicationCheckId) !== "number") {
-			swal({
-				"title": "Erreur",
-				"titleText": "Aucune méthode de contrôle des votes multiples n'a été renseignée",
-				"type": "error",
-				"confirmButtonText": "Fermer",
-				"showCloseButton": true
-			});
+			self.throwSweetError("Aucune méthode de contrôle des votes multiples n'a été renseignée");
 			return;
 		}
 		data.duplication_check = store.duplicationCheckId;
 
 		// Has captcha
 		if (typeof(store.hasCaptcha) !== "boolean") {
-			swal({
-				"title": "Erreur",
-				"titleText": "Le paramètre captcha est invalide",
-				"type": "error",
-				"confirmButtonText": "Fermer",
-				"showCloseButton": true
-			});
+			self.throwSweetError("Le paramètre captcha est invalide");
 			return;
 		}
 		data.has_captcha = store.hasCaptcha;
 
 		// Multiple
 		if (typeof(store.multipleAnswers) !== "boolean") {
-			swal({
-				"title": "Erreur",
-				"titleText": "Le paramètre des réponses multiples est invalide",
-				"type": "error",
-				"confirmButtonText": "Fermer",
-				"showCloseButton": true
-			});
+			self.throwSweetError("Le paramètre des réponses multiples est invalide");
 			return;
 		}
 		data.multiple_answers = store.multipleAnswers;
 
 		// Is draft
 		if (typeof(store.isDraft) !== "boolean") {
-			swal({
-				"title": "Erreur",
-				"titleText": "Erreur sur le statut du sondage",
-				"type": "error",
-				"confirmButtonText": "Fermer",
-				"showCloseButton": true
-			});
+			self.throwSweetError("Erreur sur le statut du sondage");
 			return;
 		}
 		data.is_draft = store.isDraft;
@@ -149,13 +120,7 @@ class PublishPollButton extends Component {
 				}
 			});
 		}).catch(function(error) {
-			swal({
-				"title": "Erreur",
-				"titleText": "Une erreur s'est produite",
-				"type": "error",
-				"confirmButtonText": "Fermer",
-				"showCloseButton": true
-			});
+			self.throwSweetError("Une erreur s'est produite.");
 		});
 	}
 

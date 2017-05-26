@@ -1,6 +1,8 @@
 import React from "react";
 import { Component } from "react";
+import { Form } from "semantic-ui-react";
 import { Checkbox } from "semantic-ui-react";
+import "./VoteCheckbox.css";
 
 class VoteCheckbox extends Component {
 	constructor(props) {
@@ -13,7 +15,11 @@ class VoteCheckbox extends Component {
 	}
 
 	render() {
-		return <div></div>;
+		return (
+			<Form.Field>
+				<Checkbox label={this.props.answer} onChange={this.handleChange}></Checkbox>
+			</Form.Field>
+		);
 	}
 }
 

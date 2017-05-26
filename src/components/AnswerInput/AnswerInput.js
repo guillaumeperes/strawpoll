@@ -34,7 +34,7 @@ class AnswerInput extends Component {
 
 	render() {
 		let deletionAuthorized = false;
-		if (typeof(this.props.answersDeletionAuthorizedByQuestion[this.props.question])) {
+		if (typeof(this.props.answersDeletionAuthorizedByQuestion[this.props.question]) !== "undefined") {
 			deletionAuthorized = this.props.answersDeletionAuthorizedByQuestion[this.props.question];
 		}
 		return (

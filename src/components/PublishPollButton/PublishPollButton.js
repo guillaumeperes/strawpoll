@@ -18,7 +18,7 @@ class PublishPollButton extends Component {
 
 	constructor(props) {
 		super(props);
-		this.savePollUrl = "http://api.strawpoll.dev/api/poll/";
+		this.savePollUrl = "https://api.strawpoll.guillaumeperes.fr/api/poll/";
 		this.respondPollPath = "/poll/:poll_id/";
 		this.publishPoll = this.publishPoll.bind(this);
 	}

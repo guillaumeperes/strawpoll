@@ -18,7 +18,7 @@ class PublishPollButton extends Component {
 
 	constructor(props) {
 		super(props);
-		this.savePollUrl = "https://api.strawpoll.guillaumeperes.fr/api/poll/";
+		this.savePollUrl = "http://api.strawpoll.dev/api/poll/";
 		this.respondPollPath = "/poll/:poll_id/";
 		this.publishPoll = this.publishPoll.bind(this);
 	}
@@ -30,7 +30,7 @@ class PublishPollButton extends Component {
 			"type": "error",
 			"confirmButtonText": "Fermer",
 			"showCloseButton": true
-		});
+		}).catch(swal.noop);
 	}
 
 	// TODO : ajouter le user id
@@ -40,23 +40,16 @@ class PublishPollButton extends Component {
 		let store = self.props.createPollForm;
 		let data = {};
 
-		// Question et liste des réponses
-		if (typeof(store.question) !== "string" || store.question.length === 0) {
-			self.throwSweetError("Veuillez renseigner une question");
+		// Liste des questions
+		if (typeof(store.questions) !== "object") {
+			self.throwSweetError("Une erreur s'est produite.");
 			return;
 		}
-		if (typeof(store.answers) !== "object") {
-			self.throwSweetError("Format des réponses invalide");
+		if (store.questions.length < store.minimumQuestionsCount) {
+			self.throwSweetError("Vous n'avez pas renseigné assez de questions.");
 			return;
 		}
-		let answers = store.answers.filter(function(answer) {
-			return answer.answer.length > 0;
-		});
-		if (answers.length < self.props.minimumAnswersCount) {
-			self.throwSweetError("Nombre de réponses insuffisant");
-			return;
-		}
-		answers = answers.sort(function(a, b) {
+		let sortedQuestions = store.questions.sort(function(a, b) {
 			if (a.position > b.position) {
 				return 1;
 			} else if (a.position < b.position) {
@@ -65,15 +58,57 @@ class PublishPollButton extends Component {
 				return 0;
 			}
 		});
-		let question = {
-			"question": store.question,
-			"answers": []
-		};
-		question.answers = answers.map(function(answer) {
-			return answer.answer;
+		let errorThrown = false;
+		let questions = sortedQuestions.map(function(question) {
+			// Vérifie que la valeur de la question est valide
+			if (typeof(question.question) !== "string" || question.question.trim().length === 0) {
+				self.throwSweetError("Vous avez renseigné une question vide."); // TODO : indiquer sur le formulaire quel input est concerné en le mettant en surbrillance
+				errorThrown = true;
+				return false;
+			}
+			// Vérifie que la valeur du paramètre autorisant les réponses multiples est valide
+			if (typeof(question.multipleAnswers) !== "boolean") {
+				self.throwSweetError("Paramètre des réponses multiple invalide."); // TODO : indiquer sur le formulaire quel input est concerné en le mettant en surbrillance
+				errorThrown = true;
+				return false;
+			}
+			// Vérifie la valeur des réponses
+			if (typeof(question.answers) !== "object") {
+				self.throwSweetError("Format des réponses invalide");
+				errorThrown = true;
+				return false;
+			}
+			let answers = question.answers.filter(function(answer) {
+				return answer.answer.trim().length > 0;
+			});
+			if (answers.length < question.minimumAnswersCount) {
+				self.throwSweetError("Nombre de réponses insuffisant sur une question."); // TODO : indiquer sur le formulaire la question concernée
+				errorThrown = true;
+				return false;
+			}
+			answers = answers.sort(function(a, b) {
+				if (a.position > b.position) {
+					return 1;
+				} else if (a.position < b.position) {
+					return -1;
+				} else {
+					return 0;
+				}
+			});
+			let out = {
+				"question": question.question,
+				"multiple_answers": question.multipleAnswers,
+				"answers": []
+			};
+			out.answers = answers.map(function(answer) {
+				return answer.answer;
+			});
+			return out;
 		});
-		data.questions = [];
-		data.questions.push(question);
+		if (errorThrown) {
+			return;
+		}
+		data.questions = questions;
 
 		// Méthode de contrôle des votes multiples
 		if (typeof(store.duplicationCheckId) !== "number") {
@@ -84,32 +119,25 @@ class PublishPollButton extends Component {
 
 		// Has captcha
 		if (typeof(store.hasCaptcha) !== "boolean") {
-			self.throwSweetError("Le paramètre captcha est invalide");
+			self.throwSweetError("Veuillez indiquer si le sondage doit comporter un captcha.");
 			return;
 		}
 		data.has_captcha = store.hasCaptcha;
 
-		// Multiple
-		if (typeof(store.multipleAnswers) !== "boolean") {
-			self.throwSweetError("Le paramètre des réponses multiples est invalide");
-			return;
-		}
-		data.multiple_answers = store.multipleAnswers;
-
 		// Is draft
 		if (typeof(store.isDraft) !== "boolean") {
-			self.throwSweetError("Erreur sur le statut du sondage");
+			self.throwSweetError("Erreur sur le statut du sondage.");
 			return;
 		}
 		data.is_draft = store.isDraft;
 
-		// Envoi des données du sondage
+		// Envoi des données à l'API
 		axios.post(self.savePollUrl, data).then(function(result) {
 			if (typeof(result.data.data.poll_id) === "number") {
 				var next = self.respondPollPath.replace(":poll_id", result.data.data.poll_id);
 			}
 			swal({
-				"title": "Bravo",
+				"title": "Bravo !",
 				"titleText": result.data.message,
 				"type": "success",
 				"confirmButtonText": "Continuer vers le sondage",
@@ -133,8 +161,7 @@ class PublishPollButton extends Component {
 
 let mapStateToProps = function(state) {
 	return {
-		"createPollForm": state.createPollForm.createPollForm,
-		"minimumAnswersCount": state.answers.minimumAnswersCount
+		"createPollForm": state.createPollForm.createPollForm
 	};
 }
 

@@ -3,7 +3,7 @@ import { Component } from "react";
 import { Form } from "semantic-ui-react";
 import { Input } from "semantic-ui-react";
 import { connect } from "react-redux";
-import { setQuestionValue } from "../../actions.js";
+import { updateQuestionValue } from "../../actions.js";
 import "./QuestionInput.css";
 
 class QuestionInput extends Component {
@@ -13,8 +13,8 @@ class QuestionInput extends Component {
 	}
 
 	handleChange(event, data) {
-		if (typeof(data.value) === "string") {
-			this.props.setQuestionInStore(data.value);
+		if (typeof(data.value) === "string" && typeof(this.props.question) === "number") {
+			this.props.updateQuestionValueInStore(this.props.question, data.value);
 		}
 	}
 
@@ -33,8 +33,8 @@ let mapStateToProps = function(state) {
 
 let mapDispatchToProps = function(dispatch) {
 	return {
-		"setQuestionInStore": function(question) {
-			dispatch(setQuestionValue(question));
+		"updateQuestionValueInStore": function(position, question) {
+			dispatch(updateQuestionValue(position, question));
 		}
 	};
 };

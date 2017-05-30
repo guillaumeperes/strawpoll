@@ -21,9 +21,8 @@ export function udpateDuplicationCheck(id) {
 			"type": UPDATE_DUPLICATION_CHECK,
 			"payload": id
 		};
-	} else {
-		return {};
 	}
+	return {};
 }
 
 export function updateUser(id) {
@@ -32,9 +31,8 @@ export function updateUser(id) {
 			"type": UPDATE_USER,
 			"payload": id
 		};
-	} else {
-		return {};
-	}
+	} 
+	return {};
 }
 
 export function updateHasCaptcha(value) {
@@ -43,9 +41,8 @@ export function updateHasCaptcha(value) {
 			"type": UPDATE_HAS_CAPTCHA,
 			"payload": value,
 		};
-	} else {
-		return {};
 	}
+	return {};
 }
 
 export function updateIsDraft(value) {
@@ -54,9 +51,8 @@ export function updateIsDraft(value) {
 			"type": UPDATE_IS_DRAFT,
 			"payload": value,
 		};
-	} else {
-		return {};
-	}
+	} 
+	return {};
 }
 
 export function createQuestionInStore(position) {
@@ -65,9 +61,8 @@ export function createQuestionInStore(position) {
 			"type": CREATE_QUESTION_IN_STORE,
 			"payload": position
 		};
-	} else {
-		return {};
 	}
+	return {};
 }
 
 export function updateQuestionValue(position, question) {
@@ -79,9 +74,8 @@ export function updateQuestionValue(position, question) {
 				"question": question
 			}
 		};
-	} else {
-		return {};
 	}
+	return {};
 }
 
 export function removeQuestionInStore(position) {
@@ -90,9 +84,8 @@ export function removeQuestionInStore(position) {
 			"type": REMOVE_QUESTION_IN_STORE,
 			"payload": position
 		};
-	} else {
-		return {};
 	}
+	return {};
 }
 
 export function toggleQuestionsDeletionStatus(status) {
@@ -101,9 +94,8 @@ export function toggleQuestionsDeletionStatus(status) {
 			"type": TOGGLE_QUESTIONS_DELETION_STATUS,
 			"payload": status
 		};
-	} else {
-		return {};
 	}
+	return {};
 }
 
 export function updateMinimumQuestionsCount(value) {
@@ -112,9 +104,8 @@ export function updateMinimumQuestionsCount(value) {
 			"type": UPDATE_MINIMUM_QUESTIONS_COUNT,
 			"payload": value
 		};
-	} else {
-		return {}
 	}
+	return {};
 }
 
 export function toggleAnswersDeletionStatusForQuestion(question, status) {
@@ -126,9 +117,8 @@ export function toggleAnswersDeletionStatusForQuestion(question, status) {
 				"status": status
 			}
 		};
-	} else {
-		return {};
-	}
+	} 
+	return {};
 }
 
 export function updateMinimumAnswersCountForQuestion(question, value) {
@@ -140,9 +130,8 @@ export function updateMinimumAnswersCountForQuestion(question, value) {
 				"value": value
 			}
 		};
-	} else {
-		return {};
 	}
+	return {};
 }
 
 export function updateAnswerValueForQuestion(question, position, answer) {
@@ -155,9 +144,8 @@ export function updateAnswerValueForQuestion(question, position, answer) {
 				"answer" : answer
 			}
 		};
-	} else {
-		return {};
 	}
+	return {};
 }
 
 export function removeAnswerValueForQuestion(question, position) {
@@ -169,9 +157,8 @@ export function removeAnswerValueForQuestion(question, position) {
 				"position": position
 			}
 		};
-	} else {
-		return {};
 	}
+	return {};
 }
 
 export function updateMultipleAnswersForQuestion(question, status) {
@@ -183,7 +170,8 @@ export function updateMultipleAnswersForQuestion(question, status) {
 				"status": status
 			}
 		};
-	} else {
-		return {};
 	}
+	return {};
+}
+
 }

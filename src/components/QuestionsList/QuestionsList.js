@@ -77,7 +77,6 @@ class QuestionsList extends Component {
 }
 
 let mapStateToProps = function(state) {
-	console.log(state);
 	return {
 		"minimumQuestionsCount": state.createPollForm.minimumQuestionsCount,
 		"questionsDeletionAuthorized": state.createPollForm.questionsDeletionAuthorized

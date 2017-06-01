@@ -174,4 +174,45 @@ export function updateMultipleAnswersForQuestion(question, status) {
 	return {};
 }
 
+export const CREATE_QUESTION_FOR_RESPONSE_IN_STORE = "CREATE_QUESTION_FOR_RESPONSE_IN_STORE";
+export const ADD_ANSWER_FOR_QUESTION_FOR_RESPONSE = "ADD_ANSWER_FOR_QUESTION_FOR_RESPONSE";
+export const REMOVE_ANSWER_FOR_QUESTION_FOR_RESPONSE = "REMOVE_ANSWER_FOR_QUESTION_FOR_RESPONSE";
+
+export function createQuestionForResponseInStore(question, multipleAnswers) {
+	if (typeof(question) === "number" && typeof(multipleAnswers) === "boolean") {
+		return {
+			"type": CREATE_QUESTION_FOR_RESPONSE_IN_STORE,
+			"payload": {
+				"question": question,
+				"multipleAnswers": multipleAnswers
+			}
+		};
+	}
+	return {};
+}
+
+export function addAnswerForQuestionForResponse(question, answer) {
+	if (typeof(question) === "number" && typeof(answer) === "number") {
+		return {
+			"type": ADD_ANSWER_FOR_QUESTION_FOR_RESPONSE,
+			"payload": {
+				"question": question,
+				"answer": answer
+			}
+		};
+	}
+	return {};
+}
+
+export function removeAnswerForQuestionForResponse(question, answer) {
+	if (typeof(question) === "number" && typeof(answer) === "number") {
+		return {
+			"type": REMOVE_ANSWER_FOR_QUESTION_FOR_RESPONSE,
+			"payload": {
+				"question": question,
+				"answer": answer
+			}
+		};
+	}
+	return {};
 }

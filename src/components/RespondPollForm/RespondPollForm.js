@@ -74,6 +74,11 @@ export default class RespondPollForm extends Component {
 					return false;
 				}
 				let out = {};
+				if (typeof(question.id) !== "number") {
+					errorThrown = true;
+					return false;
+				}
+				out.id = question.id;
 				if (typeof(question.question) !== "string") {
 					errorThrown = true;
 					return false;
@@ -113,7 +118,7 @@ export default class RespondPollForm extends Component {
 
 	renderForm() {
 		let out = this.state.poll.questions.map(function(question, i) {
-			return <VoteContainer key={i} question={question.question} answers={question.answers} multipleAnswers={question.multipleAnswers}></VoteContainer>;
+			return <VoteContainer key={i} questionId={question.id} question={question.question} multipleAnswers={question.multipleAnswers} answers={question.answers}></VoteContainer>;
 		});
 		return out;
 	}
@@ -145,7 +150,7 @@ export default class RespondPollForm extends Component {
 								{ this.renderForm() }
 								<Divider horizontal inverted></Divider>
 								<Container textAlign="center">
-									<VoteButton>Voter</VoteButton>
+									<VoteButton poll={this.state.poll.id}>Voter</VoteButton>
 									<Button size="huge" data-tooltip="Accéder aux résultats de ce sondage">Résultats</Button>
 								</Container>
 							</Form>

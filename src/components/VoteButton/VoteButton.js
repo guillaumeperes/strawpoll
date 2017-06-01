@@ -1,18 +1,89 @@
 import React from "react";
 import { Component } from "react";
 import { Button } from "semantic-ui-react";
+import axios from "axios";
+import swal from "sweetalert2";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 import "./VoteButton.css";
 
 class VoteButton extends Component {
+	static propTypes = {
+		"match": PropTypes.object.isRequired,
+		"location": PropTypes.object.isRequired,
+		"history": PropTypes.object.isRequired
+	};
+
 	constructor(props) {
 		super(props);
+		this.respondPollUrl = "https://api.strawpoll.guillaumeperes.fr/api/poll/:poll_id/answers/";
+		this.resultsPollPath = "/poll/:poll_id/answers/";
 		this.publishVote = this.publishVote.bind(this);
 	}
 
-	publishVote(event, data) {
+	throwSweetError(text) {
+		swal({
+			"title": "Erreur",
+			"titleText": text,
+			"type": "error",
+			"confirmButtonText": "Fermer"
+		}).catch(swal.noop);
+	}
+
+	publishVote(event) {
 		event.preventDefault();
-		console.log("Vote !");
-		// TODO
+		let self = this;
+		let store = self.props.respondPollForm;
+		let data = {};
+
+		if (typeof(store.questions) !== "object" || store.questions.length === 0) {
+			self.throwSweetError("Une erreur s'est produite.");
+			return;
+		}
+		let errorThrown = false;
+		let answers = store.questions.map(function(question) {
+			if (typeof(question.multipleAnswers) !== "boolean" || typeof(question.answers) !== "object") {
+				self.throwSweetError("Une erreur s'est produite");
+				errorThrown = true;
+				return false;
+			}
+			if (question.answers.length === 0) {
+				self.throwSweetError("Veuillez répondre à toutes les questions du sondage");
+				errorThrown = true;
+				return false;
+			}
+			if (!question.multipleAnswers && question.answers.length > 1) {
+				self.throwSweetError("Veuillez renseigner une unique réponse pour cette question"); // TODO préciser quelle question
+				errorThrown = true;
+				return false;
+			}
+			return question.answers;
+		});
+		if (errorThrown) {
+			return;
+		}
+		data.answers = [].concat.apply([], answers); // réduit le nombre de dimensions de answers à 1
+
+		// Envoi des données à l'api
+		let route = self.respondPollUrl.replace(":poll_id", self.props.poll);
+		axios.post(route, data).then(function(result) {
+			if (typeof(result.data.data.poll_id) === "number") {
+				var next = self.resultsPollPath.replace(":poll_id", result.data.data.poll_id);
+			}
+			swal({
+				"title": "Bravo !",
+				"titleText": result.data.message,
+				"type": "success",
+				"confirmButtonText": "Consulter les résultats",
+			}).then(function(response) {
+				if (typeof(next) !== "undefined") {
+					self.props.history.push(next); // Redirection vers la page des résultats
+				}
+			});
+		}).catch(function(error) {
+			self.throwSweetError("Une erreur s'est produite");
+		});
 	}
 
 	render() {
@@ -21,5 +92,14 @@ class VoteButton extends Component {
 		);
 	}
 }
+
+let mapStateToProps = function(state) {
+	return {
+		"respondPollForm": state.respondPollForm.respondPollForm
+	};
+};
+
+VoteButton = connect(mapStateToProps)(VoteButton);
+VoteButton = withRouter(VoteButton);
 
 export default VoteButton;

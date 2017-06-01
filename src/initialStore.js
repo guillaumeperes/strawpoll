@@ -9,7 +9,9 @@ const initialStore = {
 		"questions": [],
 	},
 	"errors": {},
-	"respondPollForm": {}
+	"respondPollForm": {
+		"questions": []
+	}
 };
 
 export default initialStore;

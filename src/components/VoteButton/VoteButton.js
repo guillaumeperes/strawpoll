@@ -6,13 +6,15 @@ import swal from "sweetalert2";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
+import { withCookies } from "react-cookie";
 import "./VoteButton.css";
 
 class VoteButton extends Component {
 	static propTypes = {
 		"match": PropTypes.object.isRequired,
 		"location": PropTypes.object.isRequired,
-		"history": PropTypes.object.isRequired
+		"history": PropTypes.object.isRequired,
+		"cookies": PropTypes.object.isRequired
 	};
 
 	constructor(props) {
@@ -65,6 +67,9 @@ class VoteButton extends Component {
 		}
 		data.answers = [].concat.apply([], answers); // réduit le nombre de dimensions de answers à 1
 
+		// Cookie (axios ne semble pas aimer le withCredentials)
+		data.strawpoll_cookie = self.props.cookies.get("strawpoll_cookie");
+
 		// Envoi des données à l'api
 		let route = self.respondPollUrl.replace(":poll_id", self.props.poll);
 		axios.post(route, data).then(function(result) {
@@ -82,7 +87,11 @@ class VoteButton extends Component {
 				}
 			});
 		}).catch(function(error) {
-			self.throwSweetError("Une erreur s'est produite");
+			if (typeof(error.response) !== "undefined") {
+				self.throwSweetError(error.response.data.error);
+			} else {
+				self.throwSweetError("Une erreur s'est produite.");
+			}
 		});
 	}
 
@@ -101,5 +110,6 @@ let mapStateToProps = function(state) {
 
 VoteButton = connect(mapStateToProps)(VoteButton);
 VoteButton = withRouter(VoteButton);
+VoteButton = withCookies(VoteButton);
 
 export default VoteButton;

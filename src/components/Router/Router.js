@@ -6,6 +6,7 @@ import { Switch } from "react-router-dom";
 import CreatePollForm from "../CreatePollForm/CreatePollForm";
 import RespondPollForm from "../RespondPollForm/RespondPollForm";
 import PageNotFound from "../PageNotFound/PageNotFound";
+import ResultsPoll from "../ResultsPoll/ResultsPoll";
 
 export default class Router extends Component {
 	render() {
@@ -14,6 +15,7 @@ export default class Router extends Component {
 				<Switch>
 					<Route exact path="/" component={CreatePollForm} />
 					<Route exact path="/poll/:poll_id/" component={RespondPollForm} />
+					<Route exact path="/poll/:poll_id/results/" component={ResultsPoll} />
 					<Route component={PageNotFound} />
 				</Switch>
 			</BrowserRouter>

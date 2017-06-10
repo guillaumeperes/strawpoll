@@ -20,7 +20,7 @@ class VoteButton extends Component {
 	constructor(props) {
 		super(props);
 		this.respondPollUrl = "https://api.strawpoll.guillaumeperes.fr/api/poll/:poll_id/answers/";
-		this.resultsPollPath = "/poll/:poll_id/answers/";
+		this.resultsPollPath = "/poll/:poll_id/results/";
 		this.publishVote = this.publishVote.bind(this);
 	}
 

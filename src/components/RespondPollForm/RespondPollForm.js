@@ -18,6 +18,8 @@ export default class RespondPollForm extends Component {
 	constructor(props) {
 		super(props);
 		this.pollUrl = "https://api.strawpoll.guillaumeperes.fr/api/poll/:poll_id/";
+		this.resultsPollPath = "/poll/:poll_id/results/";
+		this.handleGoToResults = this.handleGoToResults.bind(this);
 		this.state = {
 			"isLoading": true,
 			"pollExists": true,
@@ -116,6 +118,14 @@ export default class RespondPollForm extends Component {
 		});
 	}
 
+	handleGoToResults(event) {
+		event.preventDefault();
+		if (typeof(this.props.match.params.poll_id) !== "undefined") {
+			let resultsPollRoute = this.resultsPollPath.replace(":poll_id", this.props.match.params.poll_id);
+			this.props.history.push(resultsPollRoute);
+		}
+	}
+
 	renderForm() {
 		let out = this.state.poll.questions.map(function(question, i) {
 			return <VoteContainer key={i} questionId={question.id} question={question.question} multipleAnswers={question.multipleAnswers} answers={question.answers}></VoteContainer>;
@@ -151,7 +161,7 @@ export default class RespondPollForm extends Component {
 								<Divider horizontal inverted></Divider>
 								<Container textAlign="center">
 									<VoteButton poll={this.state.poll.id}>Voter</VoteButton>
-									<Button size="huge" data-tooltip="Accéder aux résultats de ce sondage">Résultats</Button>
+									<Button size="huge" data-tooltip="Accéder aux résultats de ce sondage" onClick={this.handleGoToResults}>Résultats</Button>
 								</Container>
 							</Form>
 					</Container>

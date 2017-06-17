@@ -29,7 +29,7 @@ export default class ResultsPoll extends Component {
 		this.handleShare = this.handleShare.bind(this);
 		this.resultsPollUrl = "https://api.strawpoll.guillaumeperes.fr/api/poll/:poll_id/results/";
 		this.channelPollUrl = "https://api.strawpoll.guillaumeperes.fr/api/poll/:poll_id/results/channel";
-		this.realTimePollUrl = "https://api.strawpoll.guillaumeperes.fr:5678";
+		this.realTimePollUrl = "https://api.strawpoll.guillaumeperes.fr";
 		this.respondPollPath = "/poll/:poll_id/";
 	}
 

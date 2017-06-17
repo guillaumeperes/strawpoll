@@ -3,7 +3,6 @@ import { Component } from "react";
 import { withCookies } from "react-cookie";
 import uniqid from "uniqid";
 import PropTypes from "prop-types";
-import Header from "../Header/Header";
 import Router from "../Router/Router";
 import Footer from "../Footer/Footer";
 
@@ -32,8 +31,7 @@ class App extends Component {
 	render() {
 		return (
 			<div>
-				<Header />
-				<main><Router /></main>
+				<Router />
 				<Footer />
 			</div>
 		);

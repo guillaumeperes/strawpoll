@@ -23,6 +23,10 @@ class PageNotFound extends Component {
 		this.handleClick = this.handleClick.bind(this);
 	}
 
+	componentDidMount() {
+		window.scrollTo(0, 0);
+	}
+
 	handleClick(event) {
 		event.preventDefault();
 		this.props.history.push("/");

@@ -116,6 +116,9 @@ export default class RespondPollForm extends Component {
 		}).catch(function(error) {
 			self.throwPollNotFound();
 		});
+
+		// Scroll vers le haut de la page
+		window.scrollTo(0, 0);
 	}
 
 	handleGoToResults(event) {

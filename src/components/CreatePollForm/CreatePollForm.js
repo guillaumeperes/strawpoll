@@ -13,6 +13,10 @@ import PublishPollButton from "../PublishPollButton/PublishPollButton";
 import "./CreatePollForm.css";
 
 export default class CreatePollForm extends Component {
+	componentDidMount() {
+		window.scrollTo(0, 0);
+	}
+
 	render() {
 		return (
 			<Segment id="CreatePoll" vertical textAlign="center">

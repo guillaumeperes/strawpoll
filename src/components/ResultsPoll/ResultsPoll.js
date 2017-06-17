@@ -157,6 +157,9 @@ export default class ResultsPoll extends Component {
 		}).catch(function() {
 			self.throwPollNotFound();
 		});
+
+		// Scroll vers le haut de la page
+		window.scrollTo(0, 0);
 	}
 
 	handleBackToVote(event) {

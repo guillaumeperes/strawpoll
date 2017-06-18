@@ -7,9 +7,12 @@ import { Dimmer } from "semantic-ui-react";
 import { Loader } from "semantic-ui-react";
 import { Button } from "semantic-ui-react";
 import { Statistic } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
+import { Icon } from "semantic-ui-react";
 import AppTitle from "../AppTitle/AppTitle";
 import QuestionResults from "../QuestionResults/QuestionResults";
 import PageNotFound from "../PageNotFound/PageNotFound";
+import ShareButton from "../ShareButton/ShareButton";
 import socketio from "socket.io-client";
 import axios from "axios";
 import "./ResultsPoll.css";
@@ -26,7 +29,6 @@ export default class ResultsPoll extends Component {
 			"poll": {}
 		};
 		this.handleBackToVote = this.handleBackToVote.bind(this);
-		this.handleShare = this.handleShare.bind(this);
 		this.resultsPollUrl = "https://api.strawpoll.guillaumeperes.fr/api/poll/:poll_id/results/";
 		this.channelPollUrl = "https://api.strawpoll.guillaumeperes.fr/api/poll/:poll_id/results/channel";
 		this.realTimePollUrl = "https://api.strawpoll.guillaumeperes.fr";
@@ -170,10 +172,6 @@ export default class ResultsPoll extends Component {
 		}
 	}
 
-	handleShare(event) {
-		event.preventDefault();
-	}
-
 	renderResults() {
 		let out = this.state.poll.questions.map(function(question, i) {
 			return <QuestionResults key={i} question={question.question} answers={question.answers}></QuestionResults>
@@ -207,8 +205,22 @@ export default class ResultsPoll extends Component {
 						<Statistic inverted horizontal value={this.state.poll.totalVotes} label="votes"></Statistic>
 						<Statistic inverted horizontal value={this.state.poll.totalComments} label="commentaires"></Statistic>
 						<Divider horizontal inverted></Divider>
-						<Button primary size="huge" onClick={this.handleBackToVote}>Retour au vote</Button>
-						<Button size="huge" onClick={this.handleShare}>Partager</Button>
+						<Grid stackable>
+							<Grid.Row only="computer tablet">
+								<Grid.Column textAlign="center" width={16}>
+									<Button primary size="huge" onClick={this.handleBackToVote}>Retour au vote</Button>
+									<ShareButton size="huge" tooltip="Partager ce sondage"><Icon name="share alternate"></Icon> Partager</ShareButton>
+								</Grid.Column>
+							</Grid.Row>
+							<Grid.Row only="mobile">
+								<Grid.Column textAlign="center" width={16}>
+									<Button primary fluid size="huge" onClick={this.handleBackToVote}>Retour au vote</Button>
+								</Grid.Column>
+								<Grid.Column textAlign="center" width={16}>
+									<ShareButton fluid size="huge" tooltip="Partager ce sondage"><Icon name="share alternate"></Icon> Partager</ShareButton>
+								</Grid.Column>
+							</Grid.Row>
+						</Grid>
 					</Container>
 				</Segment>
 			);

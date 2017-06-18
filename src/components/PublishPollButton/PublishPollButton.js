@@ -154,7 +154,7 @@ class PublishPollButton extends Component {
 
 	render() {
 		return (
-			<Button size="huge" primary onClick={this.publishPoll}>{this.props.children}</Button>
+			<Button fluid={this.props.fluid} size={this.props.size} primary={this.props.primary} onClick={this.publishPoll}>{this.props.children}</Button>
 		);
 	}
 }

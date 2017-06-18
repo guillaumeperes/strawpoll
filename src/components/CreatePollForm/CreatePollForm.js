@@ -4,6 +4,7 @@ import { Segment } from "semantic-ui-react";
 import { Divider } from "semantic-ui-react";
 import { Container } from "semantic-ui-react";
 import { Form } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 import { Icon } from "semantic-ui-react";
 import AppTitle from "../AppTitle/AppTitle";
 import QuestionsList from "../QuestionsList/QuestionsList";
@@ -27,12 +28,24 @@ export default class CreatePollForm extends Component {
 						<QuestionsList minimum="1"></QuestionsList>
 						<Divider horizontal inverted></Divider>
 						<PollOptions></PollOptions>
-						<Divider horizontal inverted></Divider>
-						<Container textAlign="center">
-							<PublishPollButton>Publier</PublishPollButton>
-							<SavePollButton tooltip="Sauvegarder le sondage pour le publier plus tard"><Icon name="save"></Icon> Sauvegarder</SavePollButton>
-						</Container>	
 					</Form>
+					<Divider horizontal inverted></Divider>
+					<Grid stackable>
+						<Grid.Row only="computer tablet">
+							<Grid.Column textAlign="center" width={16}>
+								<PublishPollButton primary size="huge">Publier</PublishPollButton>
+								<SavePollButton size="huge" tooltip="Sauvegarder le sondage pour le publier plus tard"><Icon name="save"></Icon> Sauvegarder</SavePollButton>
+							</Grid.Column>
+						</Grid.Row>
+						<Grid.Row only="mobile">
+							<Grid.Column textAlign="center" width={16}>
+								<PublishPollButton fluid primary size="huge">Publier</PublishPollButton>
+							</Grid.Column>
+							<Grid.Column textAlign="center" width={16}>
+								<SavePollButton fluid size="huge" tooltip="Sauvegarder le sondage pour le publier plus tard"><Icon name="save"></Icon> Sauvegarder</SavePollButton>
+							</Grid.Column>
+						</Grid.Row>
+					</Grid>
 				</Container>
 			</Segment>
 		);

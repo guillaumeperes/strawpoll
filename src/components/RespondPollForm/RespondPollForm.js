@@ -7,11 +7,14 @@ import { Form } from "semantic-ui-react";
 import { Dimmer } from "semantic-ui-react";
 import { Loader } from "semantic-ui-react";
 import { Button } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
+import { Icon } from "semantic-ui-react";
 import axios from "axios";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import AppTitle from "../AppTitle/AppTitle";
 import VoteContainer from "../VoteContainer/VoteContainer";
 import VoteButton from "../VoteButton/VoteButton";
+import ShareButton from "../ShareButton/ShareButton";
 import "./RespondPollForm.css";
 
 export default class RespondPollForm extends Component {
@@ -159,14 +162,28 @@ export default class RespondPollForm extends Component {
 					<Container text>
 						<AppTitle></AppTitle>
 						<Divider horizontal inverted></Divider>
-							<Form>
-								{ this.renderForm() }
-								<Divider horizontal inverted></Divider>
-								<Container textAlign="center">
-									<VoteButton poll={this.state.poll.id}>Voter</VoteButton>
+						<Form>{ this.renderForm() }</Form>
+						<Divider horizontal inverted></Divider>
+						<Grid stackable>
+							<Grid.Row only="computer tablet">
+								<Grid.Column textAlign="center" width={16}>
+									<VoteButton primary size="huge" poll={this.state.poll.id}>Voter</VoteButton>
 									<Button size="huge" data-tooltip="Accéder aux résultats de ce sondage" onClick={this.handleGoToResults}>Résultats</Button>
-								</Container>
-							</Form>
+									<ShareButton size="huge" tooltip="Partager ce sondage"><Icon name="share alternate"></Icon> Partager</ShareButton>
+								</Grid.Column>
+							</Grid.Row>
+							<Grid.Row only="mobile">
+								<Grid.Column textAlign="center" width={16}>
+									<VoteButton primary fluid size="huge" poll={this.state.poll.id}>Voter</VoteButton>
+								</Grid.Column>
+								<Grid.Column textAlign="center" width={16}>
+									<Button fluid size="huge" data-tooltip="Accéder aux résultats de ce sondage" onClick={this.handleGoToResults}>Résultats</Button>
+								</Grid.Column>
+								<Grid.Column textAlign="center" width={16}>
+									<ShareButton fluid size="huge" tooltip="Partager ce sondage"><Icon name="share alternate"></Icon> Partager</ShareButton>
+								</Grid.Column>
+							</Grid.Row>
+						</Grid>
 					</Container>
 				</Segment>
 			);

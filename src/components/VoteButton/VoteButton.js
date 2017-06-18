@@ -97,7 +97,7 @@ class VoteButton extends Component {
 
 	render() {
 		return (
-			<Button size="huge" primary onClick={this.publishVote}>{this.props.children}</Button>
+			<Button fluid={this.props.fluid} size={this.props.size} primary={this.props.primary} onClick={this.publishVote}>{this.props.children}</Button>
 		);
 	}
 }

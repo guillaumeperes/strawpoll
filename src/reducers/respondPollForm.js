@@ -29,6 +29,9 @@ let respondPollForm = function(state, action) {
 						"multipleAnswers": payload.multipleAnswers,
 						"answers": []
 					});
+				} else {
+					questions[index].multipleAnswers = payload.multipleAnswers;
+					questions[index].answers = [];
 				}
 			}
 		}

@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.16.1",
     "chart.js": "^2.4.0",
+    "copy-to-clipboard": "^3.0.6",
     "react": "^15.5.4",
     "react-chartjs-2": "^2.1.0",
     "react-cookie": "^2.0.7",

@@ -14,7 +14,7 @@ import PageNotFound from "../PageNotFound/PageNotFound";
 import AppTitle from "../AppTitle/AppTitle";
 import VoteContainer from "../VoteContainer/VoteContainer";
 import VoteButton from "../VoteButton/VoteButton";
-import ShareButton from "../ShareButton/ShareButton";
+import ShareModal from "../ShareModal/ShareModal";
 import "./RespondPollForm.css";
 
 export default class RespondPollForm extends Component {
@@ -169,7 +169,7 @@ export default class RespondPollForm extends Component {
 								<Grid.Column textAlign="center" width={16}>
 									<VoteButton primary size="huge" poll={this.state.poll.id}>Voter</VoteButton>
 									<Button size="huge" data-tooltip="Accéder aux résultats de ce sondage" onClick={this.handleGoToResults}>Résultats</Button>
-									<ShareButton size="huge" tooltip="Partager ce sondage"><Icon name="share alternate"></Icon> Partager</ShareButton>
+									<ShareModal triggerSize="huge" triggerTooltip="Partager ce sondage" poll={this.state.poll.id}><Icon name="share alternate"></Icon> Partager</ShareModal>
 								</Grid.Column>
 							</Grid.Row>
 							<Grid.Row only="mobile">
@@ -180,7 +180,7 @@ export default class RespondPollForm extends Component {
 									<Button fluid size="huge" data-tooltip="Accéder aux résultats de ce sondage" onClick={this.handleGoToResults}>Résultats</Button>
 								</Grid.Column>
 								<Grid.Column textAlign="center" width={16}>
-									<ShareButton fluid size="huge" tooltip="Partager ce sondage"><Icon name="share alternate"></Icon> Partager</ShareButton>
+									<ShareModal triggerFluid triggerSize="huge" triggerTooltip="Partager ce sondage" poll={this.state.poll.id}><Icon name="share alternate"></Icon> Partager</ShareModal>
 								</Grid.Column>
 							</Grid.Row>
 						</Grid>

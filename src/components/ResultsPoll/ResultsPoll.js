@@ -12,7 +12,7 @@ import { Icon } from "semantic-ui-react";
 import AppTitle from "../AppTitle/AppTitle";
 import QuestionResults from "../QuestionResults/QuestionResults";
 import PageNotFound from "../PageNotFound/PageNotFound";
-import ShareButton from "../ShareButton/ShareButton";
+import ShareModal from "../ShareModal/ShareModal";
 import socketio from "socket.io-client";
 import axios from "axios";
 import "./ResultsPoll.css";
@@ -209,7 +209,7 @@ export default class ResultsPoll extends Component {
 							<Grid.Row only="computer tablet">
 								<Grid.Column textAlign="center" width={16}>
 									<Button primary size="huge" onClick={this.handleBackToVote}>Retour au vote</Button>
-									<ShareButton size="huge" tooltip="Partager ce sondage"><Icon name="share alternate"></Icon> Partager</ShareButton>
+									<ShareModal triggerSize="huge" triggerTooltip="Partager ce sondage" poll={this.state.poll.id}><Icon name="share alternate"></Icon> Partager</ShareModal>
 								</Grid.Column>
 							</Grid.Row>
 							<Grid.Row only="mobile">
@@ -217,7 +217,7 @@ export default class ResultsPoll extends Component {
 									<Button primary fluid size="huge" onClick={this.handleBackToVote}>Retour au vote</Button>
 								</Grid.Column>
 								<Grid.Column textAlign="center" width={16}>
-									<ShareButton fluid size="huge" tooltip="Partager ce sondage"><Icon name="share alternate"></Icon> Partager</ShareButton>
+									<ShareModal triggerFluid triggerSize="huge" triggerTooltip="Partager ce sondage" poll={this.state.poll.id}><Icon name="share alternate"></Icon> Partager</ShareModal>
 								</Grid.Column>
 							</Grid.Row>
 						</Grid>

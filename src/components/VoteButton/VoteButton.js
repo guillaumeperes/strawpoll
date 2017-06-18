@@ -27,9 +27,12 @@ class VoteButton extends Component {
 	throwSweetError(text) {
 		swal({
 			"title": "Erreur",
-			"titleText": text,
+			"text": text,
 			"type": "error",
-			"confirmButtonText": "Fermer"
+			"confirmButtonText": "Fermer",
+			"allowOutsideClick": false,
+			"allowEscapeKey": false,
+			"allowEnterKey": false
 		}).catch(swal.noop);
 	}
 
@@ -78,14 +81,17 @@ class VoteButton extends Component {
 			}
 			swal({
 				"title": "Bravo !",
-				"titleText": result.data.message,
+				"text": result.data.message,
 				"type": "success",
 				"confirmButtonText": "Consulter les résultats",
+				"allowOutsideClick": false,
+				"allowEscapeKey": false,
+				"allowEnterKey": false
 			}).then(function(response) {
 				if (typeof(next) !== "undefined") {
 					self.props.history.push(next); // Redirection vers la page des résultats
 				}
-			});
+			}).catch(swal.noop);
 		}).catch(function(error) {
 			if (typeof(error.response) !== "undefined") {
 				self.throwSweetError(error.response.data.error);

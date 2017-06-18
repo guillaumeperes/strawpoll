@@ -26,10 +26,12 @@ class PublishPollButton extends Component {
 	throwSweetError(text) {
 		swal({
 			"title": "Erreur",
-			"titleText": text,
+			"text": text,
 			"type": "error",
 			"confirmButtonText": "Fermer",
-			"showCloseButton": true
+			"allowOutsideClick": false,
+			"allowEscapeKey": false,
+			"allowEnterKey": false
 		}).catch(swal.noop);
 	}
 
@@ -138,15 +140,17 @@ class PublishPollButton extends Component {
 			}
 			swal({
 				"title": "Bravo !",
-				"titleText": result.data.message,
+				"text": result.data.message,
 				"type": "success",
 				"confirmButtonText": "Continuer vers le sondage",
-				"showCloseButton": true
+				"allowOutsideClick": false,
+				"allowEscapeKey": false,
+				"allowEnterKey": false
 			}).then(function(response) {
 				if (typeof(next) !== "undefined") {
 					self.props.history.push(next); // Redirection vers la page de réponse
 				}
-			});
+			}).catch(swal.noop);
 		}).catch(function(error) {
 			self.throwSweetError("Une erreur s'est produite.");
 		});

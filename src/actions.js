@@ -176,6 +176,7 @@ export function updateMultipleAnswersForQuestion(question, status) {
 
 export const CREATE_QUESTION_FOR_RESPONSE_IN_STORE = "CREATE_QUESTION_FOR_RESPONSE_IN_STORE";
 export const ADD_ANSWER_FOR_QUESTION_FOR_RESPONSE = "ADD_ANSWER_FOR_QUESTION_FOR_RESPONSE";
+export const REMOVE_ALL_ANSWERS_FOR_QUESTION_FOR_RESPONSE = "REMOVE_ALL_ANSWERS_FOR_QUESTION_FOR_RESPONSE";
 export const REMOVE_ANSWER_FOR_QUESTION_FOR_RESPONSE = "REMOVE_ANSWER_FOR_QUESTION_FOR_RESPONSE";
 
 export function createQuestionForResponseInStore(question, multipleAnswers) {
@@ -199,6 +200,16 @@ export function addAnswerForQuestionForResponse(question, answer) {
 				"question": question,
 				"answer": answer
 			}
+		};
+	}
+	return {};
+}
+
+export function removeAllAnswersForQuestionForResponse(question) {
+	if (typeof(question) === "number") {
+		return {
+			"type": REMOVE_ALL_ANSWERS_FOR_QUESTION_FOR_RESPONSE,
+			"payload": question
 		};
 	}
 	return {};

@@ -17,7 +17,7 @@ class VoteContainer extends Component {
 		let self = this;
 		if (typeof(self.props.answers) === "object" && typeof(self.props.multipleAnswers) === "boolean") {
 			let out = self.props.answers.map(function(answer, i) {
-				return <VoteCheckbox key={i} questionId={self.props.questionId} answerId={answer.id} answer={answer.answer}></VoteCheckbox>
+				return <VoteCheckbox key={i} questionId={self.props.questionId} multipleAnswers={self.props.multipleAnswers} answerId={answer.id} answer={answer.answer}></VoteCheckbox>
 			});
 			return out;
 		}

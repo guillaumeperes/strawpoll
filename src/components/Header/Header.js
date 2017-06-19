@@ -1,8 +1,9 @@
 import React from "react";
 import { Component } from "react";
+import { Button } from "semantic-ui-react";
+import { Icon } from "semantic-ui-react";
 import CreatePollButton from "../CreatePollButton/CreatePollButton";
-import SigninButton from "../SigninButton/SigninButton";
-import SignupButton from "../SignupButton/SignupButton";
+import SignModal from "../SignModal/SignModal";
 import "./Header.css";
 
 export default class Header extends Component {
@@ -10,8 +11,8 @@ export default class Header extends Component {
 		return (
 			<div id="Header">
 				<CreatePollButton></CreatePollButton>
-				<SigninButton></SigninButton>
-				<SignupButton></SignupButton>
+				<SignModal section="login"><Button compact><Icon name="sign in" size="large"></Icon> Connexion</Button></SignModal>
+				<SignModal section="register"><Button compact><Icon name="signup" size="large"></Icon> Inscription</Button></SignModal>
 			</div>
 		);
 	}

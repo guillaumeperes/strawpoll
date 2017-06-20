@@ -3,9 +3,13 @@ import { Component } from "react";
 import { Modal } from "semantic-ui-react";
 import { Menu } from "semantic-ui-react";
 import { Divider } from "semantic-ui-react";
+import { LoginForm } from "../LoginForm/LoginForm";
+import { LoginActions } from "../LoginForm/LoginForm";
+import { RegisterForm } from "../RegisterForm/RegisterForm";
+import { RegisterActions } from "../RegisterForm/RegisterForm";
 import "./SignModal.css";
 
-class SignModal extends Component {
+export default class SignModal extends Component {
 	constructor(props) {
 		super(props);
 		this.sections = ["login", "register"];
@@ -35,6 +39,24 @@ class SignModal extends Component {
 		this.navigate(data.name);
 	}
 
+	renderForm() {
+		if (this.state.section === "login") {
+			return <LoginForm></LoginForm>;
+		} else if (this.state.section === "register") {
+			return <RegisterForm></RegisterForm>;
+		}
+		return <span></span>;
+	}
+
+	renderActions() {
+		if (this.state.section === "login") {
+			return <LoginActions></LoginActions>;
+		} else if (this.state.section === "register") {
+			return <RegisterActions></RegisterActions>
+		}
+		return <span></span>;
+	}
+
 	render() {
 		return (
 			<Modal trigger={this.props.children} onOpen={this.handleModalOpen}>
@@ -44,11 +66,12 @@ class SignModal extends Component {
 						<Menu.Item name="register" active={this.state.section === "register"} onClick={this.handleNavigation}>Inscription</Menu.Item>
 					</Menu>
 					<Divider horizontal inverted></Divider>
-					Formulaires
+					{ this.renderForm() }
 				</Modal.Content>
+				<Modal.Actions>
+					{ this.renderActions() }
+				</Modal.Actions>
 			</Modal>
 		);
 	}
 }
-
-export default SignModal;

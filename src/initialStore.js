@@ -8,10 +8,12 @@ const initialStore = {
 		"isDraft": false,
 		"questions": [],
 	},
-	"errors": {},
 	"respondPollForm": {
 		"questions": []
-	}
+	},
+	"errors": {},
+	"loginForm": {},
+	"registerForm": {}
 };
 
 export default initialStore;

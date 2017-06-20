@@ -227,3 +227,60 @@ export function removeAnswerForQuestionForResponse(question, answer) {
 	}
 	return {};
 }
+
+export const SET_EMAIL_FOR_LOGIN = "SET_EMAIL_FOR_LOGIN";
+export const SET_PASSWORD_FOR_LOGIN = "SET_PASSWORD_FOR_LOGIN";
+
+export function setEmailForLogin(email) {
+	if (typeof(email) === "string") {
+		return {
+			"type": SET_EMAIL_FOR_LOGIN,
+			"payload": email
+		};
+	}
+	return {};
+}
+
+export function setPasswordForLogin(password) {
+	if (typeof(password) === "string") {
+		return {
+			"type": SET_PASSWORD_FOR_LOGIN,
+			"payload": password
+		};
+	};
+	return {};
+}
+
+export const SET_EMAIL_FOR_REGISTER = "SET_EMAIL_FOR_REGISTER";
+export const SET_PASSWORD_FOR_REGISTER = "SET_PASSWORD_FOR_REGISTER";
+export const SET_PASSWORD_CONFIRMATION_FOR_REGISTER = "SET_PASSWORD_CONFIRMATION_FOR_REGISTER";
+
+export function setEmailForRegister(email) {
+	if (typeof(email) === "string") {
+		return {
+			"type": SET_EMAIL_FOR_REGISTER,
+			"payload": email
+		};
+	}
+	return {};
+}
+
+export function setPasswordForRegister(password) {
+	if (typeof(password) === "string") {
+		return {
+			"type": SET_PASSWORD_FOR_REGISTER,
+			"payload": password
+		};
+	};
+	return {};
+}
+
+export function setPasswordConfirmationForRegister(confirmation) {
+	if (typeof(confirmation) === "string") {
+		return {
+			"type": SET_PASSWORD_CONFIRMATION_FOR_REGISTER,
+			"payload": confirmation
+		};
+	};
+	return {};
+}

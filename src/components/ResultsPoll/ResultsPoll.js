@@ -173,8 +173,9 @@ export default class ResultsPoll extends Component {
 	}
 
 	renderResults() {
+		let self = this;
 		let out = this.state.poll.questions.map(function(question, i) {
-			return <QuestionResults key={i} question={question.question} answers={question.answers}></QuestionResults>
+			return <QuestionResults key={i} question={question.question} answers={question.answers} totalVotes={self.state.poll.totalVotes}></QuestionResults>
 		});
 		return out;
 	}

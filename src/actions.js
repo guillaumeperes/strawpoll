@@ -229,6 +229,7 @@ export function removeAnswerForQuestionForResponse(question, answer) {
 }
 
 export const TOGGLE_SIGN_MODAL = "TOGGLE_SIGN_MODAL";
+export const NAVIGATE_SIGN_MODAL = "NAVIGATE_SIGN_MODAL";
 
 export function openSignModal() {
 	return {
@@ -242,6 +243,16 @@ export function closeSignModal() {
 		"type": TOGGLE_SIGN_MODAL,
 		"payload": false
 	};
+}
+
+export function navigateSignModal(section) {
+	if (typeof(section) === "string") {
+		return {
+			"type": NAVIGATE_SIGN_MODAL,
+			"payload": section
+		};
+	}
+	return {};
 }
 
 export const SET_EMAIL_FOR_LOGIN = "SET_EMAIL_FOR_LOGIN";

@@ -16,7 +16,8 @@ const initialStore = {
 	"registerForm": {},
 	"user": {},
 	"signModal": {
-		"opened": false
+		"opened": false,
+		"section": "login"
 	}
 };
 

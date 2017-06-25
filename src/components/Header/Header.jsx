@@ -11,8 +11,8 @@ export default class Header extends Component {
 		return (
 			<div id="Header">
 				<CreatePollButton></CreatePollButton>
-				<SignModal section="login"><Button compact><Icon name="sign in" size="large"></Icon> Connexion</Button></SignModal>
-				<SignModal section="register"><Button compact><Icon name="signup" size="large"></Icon> Inscription</Button></SignModal>
+				<SignModal goto="login"><Button compact><Icon name="sign in" size="large"></Icon> Connexion</Button></SignModal>
+				<SignModal goto="register"><Button compact><Icon name="signup" size="large"></Icon> Inscription</Button></SignModal>
 			</div>
 		);
 	}

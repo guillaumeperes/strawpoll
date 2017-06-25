@@ -1,5 +1,6 @@
 import initialStore from "../initialStore.js";
 import { TOGGLE_SIGN_MODAL } from "../actions.js";
+import { NAVIGATE_SIGN_MODAL } from "../actions.js";
 
 const signModal = function(state, action) {
 	if (typeof(state) === "undefined") {
@@ -16,6 +17,14 @@ const signModal = function(state, action) {
 			return Object.assign({}, state, {
 				"signModal": Object.assign({}, state.signModal, {
 					"opened": action.payload
+				})
+			});
+		}
+	} else if (action.type === NAVIGATE_SIGN_MODAL) {
+		if (typeof(action.payload) === "string") {
+			return Object.assign({}, state, {
+				"signModal": Object.assign({}, state.signModal, {
+					"section": action.payload
 				})
 			});
 		}

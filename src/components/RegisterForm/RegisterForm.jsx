@@ -5,11 +5,11 @@ import { Input } from "semantic-ui-react";
 import { Header } from "semantic-ui-react";
 import { Button } from "semantic-ui-react";
 import { connect } from "react-redux";
+import axios from "axios";
+import swal from "sweetalert2";
 import { setEmailForRegister } from "../../actions.js";
 import { setPasswordForRegister } from "../../actions.js";
 import { setPasswordConfirmationForRegister } from "../../actions.js";
-import axios from "axios";
-import "./RegisterForm.css";
 
 class RegisterForm extends Component {
 	constructor(props) {
@@ -45,7 +45,7 @@ class RegisterForm extends Component {
 			<Form>
 				<Form.Field>
 					<Header as="h5">Adresse e-mail</Header>
-					<Input fluid focus type="email" placeholder="E-mail" defaultValue={this.props.email} onChange={this.handleEmailChange}></Input>
+					<Input fluid focus type="email" placeholder="E-mail" onChange={this.handleEmailChange}></Input>
 				</Form.Field>
 				<Form.Field>
 					<Header as="h5">Mot de passe</Header>
@@ -61,14 +61,7 @@ class RegisterForm extends Component {
 }
 
 const mapStateToFormProps = function(state) {
-	if (typeof(state.registerForm.registerForm.email) === "string") {
-		return {
-			"email": state.registerForm.registerForm.email
-		};
-	}
-	return {
-		"email": ""
-	};
+	return {};
 };
 
 const mapDispatchToFormProps = function(dispatch) {
@@ -92,12 +85,25 @@ class RegisterActions extends Component {
 	constructor(props) {
 		super(props);
 		this.handleRegister = this.handleRegister.bind(this);
+		//this.registerUrl = "https://api.strawpoll.guillaumeperes.fr/api/register/";
+		this.registerUrl = "http://api.strawpoll.dev/api/register/";
+	}
+
+	throwSweetError(text) {
+		swal({
+			"title": "Erreur",
+			"text": text,
+			"type": "error",
+			"confirmButtonText": "Fermer",
+			"allowOutsideClick": false,
+			"allowEscapeKey": false,
+			"allowEnterKey": false
+		}).catch(swal.noop);
 	}
 
 	handleRegister(event) {
 		event.preventDefault();
 		let self = this;
-		console.log("register");
 	}
 
 	render() {

@@ -10,6 +10,8 @@ import swal from "sweetalert2";
 import { setEmailForRegister } from "../../actions.js";
 import { setPasswordForRegister } from "../../actions.js";
 import { setPasswordConfirmationForRegister } from "../../actions.js";
+import { closeSignModal } from "../../actions.js";
+import { setUserToken } from "../../actions.js";
 
 class RegisterForm extends Component {
 	constructor(props) {
@@ -20,7 +22,7 @@ class RegisterForm extends Component {
 	}
 
 	handleEmailChange(event, data) {
-		// TODO : vérifier la validité de l'email
+		// TODO : vérifier la validité de l'email côté client
 		if (typeof(data.value) === "string") {
 			this.props.setEmailForRegisterInStore(data.value);
 		}
@@ -84,9 +86,9 @@ export { RegisterForm };
 class RegisterActions extends Component {
 	constructor(props) {
 		super(props);
+		this.handleClose = this.handleClose.bind(this);
 		this.handleRegister = this.handleRegister.bind(this);
-		//this.registerUrl = "https://api.strawpoll.guillaumeperes.fr/api/register/";
-		this.registerUrl = "http://api.strawpoll.dev/api/register/";
+		this.registerUrl = "https://api.strawpoll.guillaumeperes.fr/api/register/";
 	}
 
 	throwSweetError(text) {
@@ -101,14 +103,67 @@ class RegisterActions extends Component {
 		}).catch(swal.noop);
 	}
 
+	handleClose(event) {
+		event.preventDefault();
+		this.props.closeSignModal();
+	}
+
 	handleRegister(event) {
 		event.preventDefault();
 		let self = this;
+		let store = self.props.registerForm;
+
+		let data = {};
+		if (typeof(store.email) !== "string" || store.email.length === 0) {
+			self.throwSweetError("Veuillez renseigner une addresse e-mail");
+			return;
+		}
+		data.email = store.email;
+		if (typeof(store.password) !== "string" || store.password.length === 0) {
+			self.throwSweetError("Veuillez renseigner un mot de passe");
+			return;
+		}
+		data.password = store.password;
+		if (typeof(store.confirmation) !== "string" || store.confirmation.length === 0) {
+			self.throwSweetError("Veuillez confirmer votre mot de passe");
+			return;
+		}
+		data.confirmation = store.confirmation;
+		if (data.password !== data.confirmation) {
+			self.throwSweetError("Le mot de passe et sa confirmation doivent être identiques");
+			return;
+		}
+
+		axios.post(this.registerUrl, data).then(function(result) {
+			swal({
+				"title": "Bravo !",
+				"text": "Vous êtes maintenant inscrit sur le Strawpoll",
+				"type": "success",
+				"confirmButtonText": "Fermer",
+				"allowOutsideClick": false,
+				"allowEscapeKey": false,
+				"allowEnterKey": false
+			}).then(function(response) {
+				if (typeof(result.data.data.token) !== "undefined") {
+					self.props.setUserTokenInStore(result.data.data.token);
+				}
+				self.props.closeSignModal();
+			}).catch(swal.noop);
+		}).catch(function(error) {
+			if (typeof(error.response) !== "undefined") {
+				self.throwSweetError(error.response.data.error);
+			} else {
+				self.throwSweetError("Une erreur inconnue s'est produite");
+			}
+		});
 	}
 
 	render() {
 		return (
-			<Button primary onClick={this.handleRegister}>Inscription</Button>
+			<div className="buttons">
+				<Button onClick={this.handleClose}>Fermer</Button>
+				<Button primary onClick={this.handleRegister}>Inscription</Button>
+			</div>
 		);
 	}
 }
@@ -119,5 +174,16 @@ const mapStateToActionsProps = function(state) {
 	};
 };
 
-RegisterActions = connect(mapStateToActionsProps)(RegisterActions);
+const mapDispatchToActionsProps = function(dispatch) {
+	return {
+		"closeSignModal": function() {
+			dispatch(closeSignModal());
+		},
+		"setUserTokenInStore": function(token) {
+			dispatch(setUserToken(token));
+		}
+	};
+}
+
+RegisterActions = connect(mapStateToActionsProps, mapDispatchToActionsProps)(RegisterActions);
 export { RegisterActions };

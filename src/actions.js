@@ -228,6 +228,22 @@ export function removeAnswerForQuestionForResponse(question, answer) {
 	return {};
 }
 
+export const TOGGLE_SIGN_MODAL = "TOGGLE_SIGN_MODAL";
+
+export function openSignModal() {
+	return {
+		"type": TOGGLE_SIGN_MODAL,
+		"payload": true
+	};
+}
+
+export function closeSignModal() {
+	return {
+		"type": TOGGLE_SIGN_MODAL,
+		"payload": false
+	};
+}
+
 export const SET_EMAIL_FOR_LOGIN = "SET_EMAIL_FOR_LOGIN";
 export const SET_PASSWORD_FOR_LOGIN = "SET_PASSWORD_FOR_LOGIN";
 
@@ -282,5 +298,17 @@ export function setPasswordConfirmationForRegister(confirmation) {
 			"payload": confirmation
 		};
 	};
+	return {};
+}
+
+export const SET_USER_TOKEN = "SET_USER_TOKEN";
+
+export function setUserToken(token) {
+	if (typeof(token) === "string") {
+		return {
+			"type": SET_USER_TOKEN,
+			"payload": token
+		};
+	}
 	return {};
 }

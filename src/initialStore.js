@@ -13,7 +13,11 @@ const initialStore = {
 	},
 	"errors": {},
 	"loginForm": {},
-	"registerForm": {}
+	"registerForm": {},
+	"user": {},
+	"signModal": {
+		"opened": false
+	}
 };
 
 export default initialStore;

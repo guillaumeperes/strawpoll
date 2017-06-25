@@ -3,12 +3,15 @@ import { Component } from "react";
 import { Modal } from "semantic-ui-react";
 import { Menu } from "semantic-ui-react";
 import { Divider } from "semantic-ui-react";
+import { connect } from "react-redux";
 import { LoginForm } from "../LoginForm/LoginForm";
 import { LoginActions } from "../LoginForm/LoginForm";
 import { RegisterForm } from "../RegisterForm/RegisterForm";
 import { RegisterActions } from "../RegisterForm/RegisterForm";
+import { openSignModal } from "../../actions.js";
+import { closeSignModal } from "../../actions.js";
 
-export default class SignModal extends Component {
+class SignModal extends Component {
 	constructor(props) {
 		super(props);
 		this.sections = ["login", "register"];
@@ -26,6 +29,7 @@ export default class SignModal extends Component {
 	}
 
 	handleModalOpen() {
+		this.props.openSignModal();
 		if (typeof(this.props.section) === "string") {
 			this.navigate(this.props.section);
 		} else {
@@ -58,7 +62,7 @@ export default class SignModal extends Component {
 
 	render() {
 		return (
-			<Modal trigger={this.props.children} onOpen={this.handleModalOpen}>
+			<Modal trigger={this.props.children} open={this.props.opened} onOpen={this.handleModalOpen}>
 				<Modal.Content>
 					<Menu pointing secondary stackable>
 						<Menu.Item name="login" active={this.state.section === "login"} onClick={this.handleNavigation}>Connexion</Menu.Item>
@@ -74,3 +78,23 @@ export default class SignModal extends Component {
 		);
 	}
 }
+
+const mapStateToProps = function(state) {
+	return {
+		"opened": state.signModal.signModal.opened
+	};
+};
+
+const mapDispatchToProps = function(dispatch) {
+	return {
+		"openSignModal": function() {
+			dispatch(openSignModal());
+		},
+		"closeSignModal": function() {
+			dispatch(closeSignModal());
+		}
+	};
+};
+
+SignModal = connect(mapStateToProps, mapDispatchToProps)(SignModal);
+export default SignModal;

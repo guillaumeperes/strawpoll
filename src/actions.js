@@ -14,6 +14,7 @@ export const UPDATE_MINIMUM_ANSWERS_COUNT_FOR_QUESTION = "UPDATE_MINIMUM_ANSWERS
 export const UPDATE_ANSWER_VALUE_FOR_QUESTION = "UPDATE_ANSWER_VALUE_FOR_QUESTION";
 export const REMOVE_ANSWER_VALUE_FOR_QUESTION = "REMOVE_ANSWER_VALUE_FOR_QUESTION";
 export const UPDATE_MULTIPLE_ANSWERS_FOR_QUESTION = "UPDATE_MULTIPLE_ANSWERS_FOR_QUESTION";
+export const REMOVE_CREATE_POLL_DATA = "REMOVE_CREATE_POLL_DATA";
 
 export function udpateDuplicationCheck(id) {
 	if (typeof(id) === "number") {
@@ -174,10 +175,18 @@ export function updateMultipleAnswersForQuestion(question, status) {
 	return {};
 }
 
+export function removeCreatePollData() {
+	return {
+		"type": REMOVE_CREATE_POLL_DATA,
+		"payload": null
+	};
+}
+
 export const CREATE_QUESTION_FOR_RESPONSE_IN_STORE = "CREATE_QUESTION_FOR_RESPONSE_IN_STORE";
 export const ADD_ANSWER_FOR_QUESTION_FOR_RESPONSE = "ADD_ANSWER_FOR_QUESTION_FOR_RESPONSE";
 export const REMOVE_ALL_ANSWERS_FOR_QUESTION_FOR_RESPONSE = "REMOVE_ALL_ANSWERS_FOR_QUESTION_FOR_RESPONSE";
 export const REMOVE_ANSWER_FOR_QUESTION_FOR_RESPONSE = "REMOVE_ANSWER_FOR_QUESTION_FOR_RESPONSE";
+export const REMOVE_RESPONSE_DATA = "REMOVE_RESPONSE_DATA";
 
 export function createQuestionForResponseInStore(question, multipleAnswers) {
 	if (typeof(question) === "number" && typeof(multipleAnswers) === "boolean") {
@@ -226,6 +235,13 @@ export function removeAnswerForQuestionForResponse(question, answer) {
 		};
 	}
 	return {};
+}
+
+export function removeResponseData() {
+	return {
+		"type": REMOVE_RESPONSE_DATA,
+		"payload": null
+	};
 }
 
 export const TOGGLE_SIGN_MODAL = "TOGGLE_SIGN_MODAL";

@@ -6,16 +6,22 @@ import { Container } from "semantic-ui-react";
 import { Form } from "semantic-ui-react";
 import { Grid } from "semantic-ui-react";
 import { Icon } from "semantic-ui-react";
+import { connect } from "react-redux";
 import AppTitle from "../AppTitle/AppTitle";
 import QuestionsList from "../QuestionsList/QuestionsList";
 import PollOptions from "../PollOptions/PollOptions";
 import SavePollButton from "../SavePollButton/SavePollButton";
 import PublishPollButton from "../PublishPollButton/PublishPollButton";
+import { removeCreatePollData } from "../../actions.js";
 import "./CreatePollForm.css";
 
-export default class CreatePollForm extends Component {
+class CreatePollForm extends Component {
 	componentDidMount() {
 		window.scrollTo(0, 0);
+	}
+
+	componentWillUnmount() {
+
 	}
 
 	render() {
@@ -51,3 +57,18 @@ export default class CreatePollForm extends Component {
 		);
 	}
 }
+
+const mapStateToProps = function(state) {
+	return {};
+};
+
+const mapDispatchToProps = function(dispatch) {
+	return {
+		"removeCreatePollDataInStore": function() {
+			dispatch(removeCreatePollData());
+		}
+	};
+};
+
+CreatePollForm = connect(mapStateToProps, mapDispatchToProps)(CreatePollForm);
+export default CreatePollForm;

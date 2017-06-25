@@ -13,6 +13,7 @@ import { UPDATE_MINIMUM_ANSWERS_COUNT_FOR_QUESTION } from "../actions.js";
 import { UPDATE_ANSWER_VALUE_FOR_QUESTION } from "../actions.js";
 import { REMOVE_ANSWER_VALUE_FOR_QUESTION } from "../actions.js";
 import { UPDATE_MULTIPLE_ANSWERS_FOR_QUESTION } from "../actions.js";
+import { REMOVE_CREATE_POLL_DATA } from "../actions.js";
 
 let createPollForm = function(state, action) {
 	if (typeof(state) === "undefined") {
@@ -331,6 +332,12 @@ let createPollForm = function(state, action) {
 					}
 				}
 				break;
+
+			// Nettoyage du store
+			case REMOVE_CREATE_POLL_DATA: 
+				return Object.assign({}, state, {
+					"createPollForm": {}
+				});
 				
 		default: 
 			return state;

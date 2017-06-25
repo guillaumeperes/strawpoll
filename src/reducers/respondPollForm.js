@@ -3,6 +3,7 @@ import { CREATE_QUESTION_FOR_RESPONSE_IN_STORE } from "../actions.js";
 import { ADD_ANSWER_FOR_QUESTION_FOR_RESPONSE } from "../actions.js";
 import { REMOVE_ALL_ANSWERS_FOR_QUESTION_FOR_RESPONSE } from "../actions.js";
 import { REMOVE_ANSWER_FOR_QUESTION_FOR_RESPONSE } from "../actions.js";
+import { REMOVE_RESPONSE_DATA } from "../actions";
 
 let respondPollForm = function(state, action) {
 	if (typeof(state) === "undefined") {
@@ -103,6 +104,10 @@ let respondPollForm = function(state, action) {
 			"respondPollForm": Object.assign({}, state.respondPollForm, {
 				"questions": questions
 			})
+		});
+	} else if (action.type === REMOVE_RESPONSE_DATA) {
+		return Object.assign({}, state, {
+			"respondPollForm": {}
 		});
 	}
 

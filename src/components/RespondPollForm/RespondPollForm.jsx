@@ -10,14 +10,16 @@ import { Button } from "semantic-ui-react";
 import { Grid } from "semantic-ui-react";
 import { Icon } from "semantic-ui-react";
 import axios from "axios";
+import { connect } from "react-redux";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import AppTitle from "../AppTitle/AppTitle";
 import VoteContainer from "../VoteContainer/VoteContainer";
 import VoteButton from "../VoteButton/VoteButton";
 import ShareModal from "../ShareModal/ShareModal";
+import { removeResponseData } from "../../actions.js";
 import "./RespondPollForm.css";
 
-export default class RespondPollForm extends Component {
+class RespondPollForm extends Component {
 	constructor(props) {
 		super(props);
 		this.pollUrl = "https://api.strawpoll.guillaumeperes.fr/api/poll/:poll_id/";
@@ -36,6 +38,10 @@ export default class RespondPollForm extends Component {
 			"pollExists": false,
 			"poll": {}
 		});
+	}
+
+	componentWillUnmount() {
+		this.props.removeResponseDataInStore();
 	}
 
 	componentDidMount() {
@@ -190,3 +196,18 @@ export default class RespondPollForm extends Component {
 		}
 	}
 }
+
+const mapStateToProps = function(state) {
+	return {};
+};
+
+const mapDispatchToProps = function(dispatch) {
+	return {
+		"removeResponseDataInStore": function() {
+			dispatch(removeResponseData());
+		}
+	};
+};
+
+RespondPollForm = connect(mapStateToProps, mapDispatchToProps)(RespondPollForm);
+export default RespondPollForm;

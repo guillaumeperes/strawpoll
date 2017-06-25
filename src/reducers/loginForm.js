@@ -1,6 +1,7 @@
 import initialStore from "../initialStore.js";
 import { SET_EMAIL_FOR_LOGIN } from "../actions.js";
 import { SET_PASSWORD_FOR_LOGIN } from "../actions.js";
+import { REMOVE_LOGIN_DATA } from "../actions.js";
 
 let loginForm = function(state, action) {
 	if (typeof(state) === "undefined") {
@@ -28,6 +29,10 @@ let loginForm = function(state, action) {
 				})
 			});
 		}
+	} else if (action.type === REMOVE_LOGIN_DATA) {
+		return Object.assign({}, state, {
+			"loginForm": {}
+		});
 	}
 
 	return state;

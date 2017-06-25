@@ -2,6 +2,7 @@ import initialStore from "../initialStore.js";
 import { SET_EMAIL_FOR_REGISTER } from "../actions.js";
 import { SET_PASSWORD_FOR_REGISTER } from "../actions.js";
 import { SET_PASSWORD_CONFIRMATION_FOR_REGISTER } from "../actions.js";
+import { REMOVE_REGISTER_DATA } from "../actions.js";
 
 let registerForm = function(state, action) {
 	if (typeof(state) === "undefined") {
@@ -37,6 +38,10 @@ let registerForm = function(state, action) {
 				})
 			});
 		}
+	} else if (action.type === REMOVE_REGISTER_DATA) {
+		return Object.assign({}, state, {
+			"registerForm": {}
+		});
 	}
 
 	return state;

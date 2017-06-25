@@ -257,6 +257,7 @@ export function navigateSignModal(section) {
 
 export const SET_EMAIL_FOR_LOGIN = "SET_EMAIL_FOR_LOGIN";
 export const SET_PASSWORD_FOR_LOGIN = "SET_PASSWORD_FOR_LOGIN";
+export const REMOVE_LOGIN_DATA = "REMOVE_LOGIN_DATA";
 
 export function setEmailForLogin(email) {
 	if (typeof(email) === "string") {
@@ -278,9 +279,17 @@ export function setPasswordForLogin(password) {
 	return {};
 }
 
+export function removeLoginData() {
+	return {
+		"type": REMOVE_LOGIN_DATA,
+		"payload": null
+	};
+}
+
 export const SET_EMAIL_FOR_REGISTER = "SET_EMAIL_FOR_REGISTER";
 export const SET_PASSWORD_FOR_REGISTER = "SET_PASSWORD_FOR_REGISTER";
 export const SET_PASSWORD_CONFIRMATION_FOR_REGISTER = "SET_PASSWORD_CONFIRMATION_FOR_REGISTER";
+export const REMOVE_REGISTER_DATA = "REMOVE_REGISTER_DATA";
 
 export function setEmailForRegister(email) {
 	if (typeof(email) === "string") {
@@ -310,6 +319,13 @@ export function setPasswordConfirmationForRegister(confirmation) {
 		};
 	};
 	return {};
+}
+
+export function removeRegisterData() {
+	return {
+		"type": REMOVE_REGISTER_DATA,
+		"payload": null
+	};
 }
 
 export const SET_USER_TOKEN = "SET_USER_TOKEN";

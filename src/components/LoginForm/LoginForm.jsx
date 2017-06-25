@@ -5,14 +5,23 @@ import { Input } from "semantic-ui-react";
 import { Header } from "semantic-ui-react";
 import { Button } from "semantic-ui-react";
 import { connect } from "react-redux";
+import axios from "axios";
+import swal from "sweetalert2";
 import { setEmailForLogin } from "../../actions.js";
 import { setPasswordForLogin } from "../../actions.js";
+import { closeSignModal } from "../../actions.js";
+import { setUserToken } from "../../actions.js";
+import { removeLoginData } from "../../actions.js";
 
 class LoginForm extends Component {
 	constructor(props) {
 		super(props);
 		this.handleEmailChange = this.handleEmailChange.bind(this);
 		this.handlePasswordChange = this.handlePasswordChange.bind(this);
+	}
+
+	componentWillUnmount() {
+		this.props.removeLoginDataInStore();
 	}
 
 	handleEmailChange(event, data) {
@@ -56,6 +65,9 @@ const mapDispatchToFormProps = function(dispatch) {
 		},
 		"setPasswordForLoginInStore": function(password) {
 			dispatch(setPasswordForLogin(password));
+		},
+		"removeLoginDataInStore": function() {
+			dispatch(removeLoginData());
 		}
 	};
 };
@@ -63,11 +75,30 @@ const mapDispatchToFormProps = function(dispatch) {
 LoginForm = connect(mapStateToFormProps, mapDispatchToFormProps)(LoginForm);
 export { LoginForm };
 
-export class LoginActions extends Component {
+class LoginActions extends Component {
 	constructor(props) {
 		super(props);
+		this.handleClose = this.handleClose.bind(this);
 		this.handleForgotPassword = this.handleForgotPassword.bind(this);
 		this.handleLogin = this.handleLogin.bind(this);
+		this.loginUrl = "https://api.strawpoll.guillaumeperes.fr/api/login/";
+	}
+
+	throwSweetError(text) {
+		swal({
+			"title": "Erreur",
+			"text": text,
+			"type": "error",
+			"confirmButtonText": "Fermer",
+			"allowOutsideClick": false,
+			"allowEscapeKey": false,
+			"allowEnterKey": false
+		}).catch(swal.noop);
+	}
+
+	handleClose(event) {
+		event.preventDefault();
+		this.props.closeSignModal();
 	}
 
 	handleForgotPassword(event) {
@@ -77,15 +108,72 @@ export class LoginActions extends Component {
 
 	handleLogin(event) {
 		event.preventDefault();
-		console.log("login");
+		let self = this;
+		let store = self.props.loginForm;
+
+		let data = {};
+		if (typeof(store.email) !== "string" || store.email.length === 0) {
+			self.throwSweetError("Veuillez renseigner votre adresse e-mail");
+			return;
+		}
+		data.email = store.email;
+		if (typeof(store.password) !== "string" || store.password.length === 0) {
+			self.throwSweetError("Veuillez renseigner votre mot de passe");
+			return;
+		}
+		data.password = store.password;
+
+		axios.post(this.loginUrl, data).then(function(result) {
+			swal({
+				"title": "Bravo !",
+				"text": "Vous êtes maintenant connecté à votre compte",
+				"type": "success",
+				"confirmButtonText": "Fermer",
+				"allowOutsideClick": false,
+				"allowEscapeKey": false,
+				"allowEnterKey": false
+			}).then(function(response) {
+				if (typeof(result.data.data.token) !== "undefined") {
+					self.props.setUserTokenInStore(result.data.data.token);
+				}
+				self.props.closeSignModal();
+			}).catch(swal.noop);
+		}).catch(function(error) {
+			if (typeof(error.response) !== "undefined") {
+				self.throwSweetError(error.response.data.error);
+			} else {
+				self.throwSweetError("Une erreur inconnue s'est produite");
+			}
+		});
 	}
 
 	render() {
 		return (
-			<div>
+			<div className="buttons">
+				<Button onClick={this.handleClose}>Fermer</Button>
 				<Button onClick={this.handleForgotPassword}>Mot de passe oublié</Button>
 				<Button primary onClick={this.handleLogin}>Connexion</Button>
 			</div>
 		);
 	}
 }
+
+const mapStateToActionsProps = function(state) {
+	return {
+		"loginForm": state.loginForm.loginForm
+	};
+}
+
+const mapDispatchToActionsProps = function(dispatch) {
+	return {
+		"closeSignModal": function() {
+			dispatch(closeSignModal());
+		},
+		"setUserTokenInStore": function(token) {
+			dispatch(setUserToken(token));
+		}
+	};
+}
+
+LoginActions = connect(mapStateToActionsProps, mapDispatchToActionsProps)(LoginActions);
+export { LoginActions };

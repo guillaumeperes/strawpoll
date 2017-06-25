@@ -12,6 +12,7 @@ import { setPasswordForRegister } from "../../actions.js";
 import { setPasswordConfirmationForRegister } from "../../actions.js";
 import { closeSignModal } from "../../actions.js";
 import { setUserToken } from "../../actions.js";
+import { removeRegisterData } from "../../actions.js";
 
 class RegisterForm extends Component {
 	constructor(props) {
@@ -19,6 +20,10 @@ class RegisterForm extends Component {
 		this.handleEmailChange = this.handleEmailChange.bind(this);
 		this.handlePasswordChange = this.handlePasswordChange.bind(this);
 		this.handleConfirmationChange = this.handleConfirmationChange.bind(this);
+	}
+
+	componentWillUnmount() {
+		this.props.removeRegisterDataInStore();
 	}
 
 	handleEmailChange(event, data) {
@@ -76,6 +81,9 @@ const mapDispatchToFormProps = function(dispatch) {
 		},
 		"setPasswordConfirmationForRegisterInStore": function(confirmation) {
 			dispatch(setPasswordConfirmationForRegister(confirmation));
+		},
+		"removeRegisterDataInStore": function() {
+			dispatch(removeRegisterData());
 		}
 	};
 };
@@ -115,7 +123,7 @@ class RegisterActions extends Component {
 
 		let data = {};
 		if (typeof(store.email) !== "string" || store.email.length === 0) {
-			self.throwSweetError("Veuillez renseigner une addresse e-mail");
+			self.throwSweetError("Veuillez renseigner une adresse e-mail");
 			return;
 		}
 		data.email = store.email;

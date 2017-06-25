@@ -2,10 +2,10 @@ import React from "react";
 import { Component } from "react";
 import { Segment } from "semantic-ui-react";
 import { Header } from "semantic-ui-react";
-import ToggleInput from "../ToggleInput/ToggleInput";
-import { updateMultipleAnswersForQuestion } from "../../actions.js";
+import { Checkbox } from "semantic-ui-react";
+import { Form } from "semantic-ui-react";
 import { connect } from "react-redux";
-import "./QuestionOptions.css";
+import { updateMultipleAnswersForQuestion } from "../../actions.js";
 
 class QuestionOptions extends Component {
 	constructor(props) {
@@ -13,9 +13,9 @@ class QuestionOptions extends Component {
 		this.handleMultipleAnswersChange = this.handleMultipleAnswersChange.bind(this);
 	}
 
-	handleMultipleAnswersChange(checked) {
-		if (typeof(checked) === "boolean") {
-			this.props.updateMultipleAnswersForQuestionInStore(this.props.question, checked);
+	handleMultipleAnswersChange(event, data) {
+		if (typeof(data.checked) === "boolean") {
+			this.props.updateMultipleAnswersForQuestionInStore(this.props.question, data.checked);
 		}
 	}
 
@@ -23,17 +23,19 @@ class QuestionOptions extends Component {
 		return (
 			<Segment textAlign="left" tertiary>
 				<Header as="h4">Paramètres de la question</Header>
-				<ToggleInput handleToggleChange={this.handleMultipleAnswersChange} label="Autoriser plusieurs réponses"></ToggleInput>
+				<Form.Field>
+					<Checkbox toggle label="Autoriser plusieurs réponses" onChange={this.handleMultipleAnswersChange}></Checkbox>
+				</Form.Field>
 			</Segment>
 		);
 	}
 }
 
-let mapStateToProps = function(state) {
+const mapStateToProps = function(state) {
 	return {};
 };
 
-let mapDispatchToProps = function(dispatch) {
+const mapDispatchToProps = function(dispatch) {
 	return {
 		"updateMultipleAnswersForQuestionInStore": function(question, status) {
 			dispatch(updateMultipleAnswersForQuestion(question, status));

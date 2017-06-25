@@ -4,7 +4,6 @@ import { Segment } from "semantic-ui-react";
 import { Container } from "semantic-ui-react";
 import { Header } from "semantic-ui-react";
 import { Pie } from "react-chartjs-2";
-import "./QuestionResults.css";
 
 export default class QuestionResults extends Component {
 	calculateRatio(votes, total) {
@@ -13,18 +12,17 @@ export default class QuestionResults extends Component {
 
 	renderPie() {
 		let self = this;
-		if (typeof(this.props.answers) === "object") {
+		if (Array.isArray(this.props.answers)) {
 			let data = {
 				"labels": [],
 				"datasets": []
 			};
 			this.props.answers.forEach(function(answer) {
 				if (typeof(answer.votes) === "number" && typeof(self.props.totalVotes) === "number") {
-					var label = answer.answer + " (" + self.calculateRatio(answer.votes, self.props.totalVotes) + "%)";	
+					data.labels.push(answer.answer + " (" + self.calculateRatio(answer.votes, self.props.totalVotes) + "%)");
 				} else {
-					var label = answer.answer;
+					data.labels.push(answer.answer);
 				}
-				data.labels.push(label);
 			});
 			let dataset = {};
 			dataset.data = this.props.answers.map(function(answer) {

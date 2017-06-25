@@ -4,7 +4,6 @@ import { Button } from "semantic-ui-react";
 import { Icon } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
-import "./CreatePollButton.css";
 
 class CreatePollButton extends Component {
 	static propTypes = {

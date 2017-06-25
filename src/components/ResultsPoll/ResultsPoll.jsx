@@ -183,7 +183,8 @@ export default class ResultsPoll extends Component {
 	render() {
 		if (!this.state.pollExists) {
 			return <PageNotFound></PageNotFound>
-		} else if (this.state.loading.initialResults || this.state.loading.realTimeSocket) {
+		}
+		if (this.state.loading.initialResults || this.state.loading.realTimeSocket) {
 			return (
 				<Segment vertical id="ResultsPoll" textAlign="center">
 					<Container text>
@@ -195,7 +196,8 @@ export default class ResultsPoll extends Component {
 					</Container>
 				</Segment>
 			);
-		} else {
+		} 
+		if (!this.state.loading.initialResults && !this.state.loading.realTimeSocket) {
 			return (
 				<Segment vertical id="ResultsPoll" textAlign="center">
 					<Container text>

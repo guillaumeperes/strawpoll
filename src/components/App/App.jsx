@@ -3,10 +3,10 @@ import { Component } from "react";
 import { withCookies } from "react-cookie";
 import uniqid from "uniqid";
 import PropTypes from "prop-types";
-import Router from "../Router/Router";
-import Footer from "../Footer/Footer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
+import Router from "../Router/Router";
+import Footer from "../Footer/Footer";
 import "./App.css";
 
 class App extends Component {

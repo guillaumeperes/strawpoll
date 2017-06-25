@@ -4,7 +4,6 @@ import { Form } from "semantic-ui-react";
 import { Input } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { updateQuestionValue } from "../../actions.js";
-import "./QuestionInput.css";
 
 class QuestionInput extends Component {
 	constructor(props) {
@@ -27,11 +26,11 @@ class QuestionInput extends Component {
 	}
 }
 
-let mapStateToProps = function(state) {
+const mapStateToProps = function(state) {
 	return {};
 };
 
-let mapDispatchToProps = function(dispatch) {
+const mapDispatchToProps = function(dispatch) {
 	return {
 		"updateQuestionValueInStore": function(position, question) {
 			dispatch(updateQuestionValue(position, question));

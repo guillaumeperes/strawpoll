@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import { addAnswerForQuestionForResponse } from "../../actions.js";
 import { removeAllAnswersForQuestionForResponse } from "../../actions.js";
 import { removeAnswerForQuestionForResponse } from "../../actions.js";
-import "./VoteCheckbox.css";
 
 class VoteCheckbox extends Component {
 	constructor(props) {
@@ -45,7 +44,7 @@ class VoteCheckbox extends Component {
 	}
 }
 
-let mapStateToProps = function(state) {
+const mapStateToProps = function(state) {
 	if (typeof(state.respondPollForm.respondPollForm.questions) === "object") {
 		let questions = state.respondPollForm.respondPollForm.questions.map(function(question) {
 			return {
@@ -62,7 +61,7 @@ let mapStateToProps = function(state) {
 	};
 };
 
-let mapDispatchToProps = function(dispatch) {
+const mapDispatchToProps = function(dispatch) {
 	return {
 		"addAnswerForQuestionForResponseInStore": function(question, answer) {
 			dispatch(addAnswerForQuestionForResponse(question, answer));

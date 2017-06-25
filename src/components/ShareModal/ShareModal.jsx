@@ -7,7 +7,6 @@ import { Input } from "semantic-ui-react";
 import { Header } from "semantic-ui-react";
 import copy from "copy-to-clipboard";
 import { toast } from "react-toastify";
-import "./ShareModal.css";
 
 export default class ShareModal extends Component {
 	constructor(props) {

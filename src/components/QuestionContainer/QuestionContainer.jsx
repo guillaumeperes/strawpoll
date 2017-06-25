@@ -7,7 +7,6 @@ import QuestionOptions from "../QuestionOptions/QuestionOptions";
 import { connect } from "react-redux";
 import { createQuestionInStore } from "../../actions.js";
 import { removeQuestionInStore } from "../../actions.js";
-import "./QuestionContainer.css";
 
 class QuestionContainer extends Component {
 	constructor(props) {
@@ -41,11 +40,11 @@ class QuestionContainer extends Component {
 	}
 }
 
-let mapStateToProps = function(state) {
+const mapStateToProps = function(state) {
 	return {};
 };
 
-let mapDispatchToProps = function(dispatch) {
+const mapDispatchToProps = function(dispatch) {
 	return {
 		"createQuestionInStore": function(position) {
 			dispatch(createQuestionInStore(position));

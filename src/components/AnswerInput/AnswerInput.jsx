@@ -6,7 +6,6 @@ import { Icon } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { updateAnswerValueForQuestion } from "../../actions.js";
 import { removeAnswerValueForQuestion } from "../../actions.js";
-import "./AnswerInput.css";
 
 class AnswerInput extends Component {
 	constructor(props) {
@@ -45,7 +44,7 @@ class AnswerInput extends Component {
 	}
 }
 
-let mapStateToProps = function(state) {
+const mapStateToProps = function(state) {
 	let questions = state.createPollForm.createPollForm.questions;
 	let answersDeletionAuthorizedByQuestion = {};
 	questions.forEach(function(question) {
@@ -56,7 +55,7 @@ let mapStateToProps = function(state) {
 	};
 };
 
-let mapDispatchToProps = function(dispatch) {
+const mapDispatchToProps = function(dispatch) {
 	return {
 		"updateAnswerValueForQuestionInStore": function(question, position, answer) {
 			dispatch(updateAnswerValueForQuestion(question, position, answer));

@@ -2,11 +2,11 @@ import React from "react";
 import { Component } from "react";
 import { Segment } from "semantic-ui-react";
 import { Header } from "semantic-ui-react";
-import ToggleInput from "../ToggleInput/ToggleInput";
-import DuplicationCheckSelect from "../DuplicationCheckSelect/DuplicationCheckSelect";
+import { Form } from "semantic-ui-react";
+import { Checkbox } from "semantic-ui-react";
 import { connect } from "react-redux";
+import DuplicationCheckSelect from "../DuplicationCheckSelect/DuplicationCheckSelect";
 import { updateHasCaptcha } from "../../actions.js";
-import "./PollOptions.css";
 
 class PollOptions extends Component {
 	constructor(props) {
@@ -14,9 +14,9 @@ class PollOptions extends Component {
 		this.handleCaptchaChange = this.handleCaptchaChange.bind(this);
 	}
 
-	handleCaptchaChange(checked) {
-		if (typeof(checked) === "boolean") {
-			this.props.updateCaptchaInStore(checked);
+	handleCaptchaChange(event, data) {
+		if (typeof(data.checked) === "boolean") {
+			this.props.updateCaptchaInStore(data.checked);
 		}
 	}
 
@@ -24,18 +24,20 @@ class PollOptions extends Component {
 		return (
 			<Segment textAlign="left" tertiary>
 				<Header as="h4">Paramètres généraux du sondage</Header>
-				<ToggleInput handleToggleChange={this.handleCaptchaChange} label="Utiliser un captcha pour réduire le spam"></ToggleInput>
-				<DuplicationCheckSelect label="Contrôler les réponses multiples"></DuplicationCheckSelect>
+				<DuplicationCheckSelect label="Contrôler les réponses multiples" />
+				<Form.Field>
+					<Checkbox toggle label="Utiliser un captcha pour réduire le spam" onChange={this.handleCaptchaChange} />
+				</Form.Field>
 			</Segment>
 		);
 	}
 }
 
-let mapStateToProps = function(state) {
+const mapStateToProps = function(state) {
 	return {};
 };
 
-let mapDispatchToProps = function(dispatch) {
+const mapDispatchToProps = function(dispatch) {
 	return {
 		"updateCaptchaInStore": function(value) {
 			dispatch(updateHasCaptcha(value));
@@ -44,5 +46,4 @@ let mapDispatchToProps = function(dispatch) {
 };
 
 PollOptions = connect(mapStateToProps, mapDispatchToProps)(PollOptions);
-
 export default PollOptions;

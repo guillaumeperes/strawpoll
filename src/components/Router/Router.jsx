@@ -6,8 +6,8 @@ import { Switch } from "react-router-dom";
 import Header from "../Header/Header";
 import CreatePollForm from "../CreatePollForm/CreatePollForm";
 import RespondPollForm from "../RespondPollForm/RespondPollForm";
-import PageNotFound from "../PageNotFound/PageNotFound";
 import ResultsPoll from "../ResultsPoll/ResultsPoll";
+import PageNotFound from "../PageNotFound/PageNotFound";
 
 export default class Router extends Component {
 	render() {

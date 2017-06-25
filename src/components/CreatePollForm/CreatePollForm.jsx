@@ -22,14 +22,14 @@ export default class CreatePollForm extends Component {
 		return (
 			<Segment id="CreatePoll" vertical textAlign="center">
 				<Container text>
-					<AppTitle></AppTitle>
-					<Divider horizontal inverted></Divider>
+					<AppTitle />
+					<Divider horizontal inverted />
 					<Form>
-						<QuestionsList minimum="1"></QuestionsList>
-						<Divider horizontal inverted></Divider>
-						<PollOptions></PollOptions>
+						<QuestionsList minimum="1" />
+						<Divider horizontal inverted />
+						<PollOptions />
 					</Form>
-					<Divider horizontal inverted></Divider>
+					<Divider horizontal inverted />
 					<Grid stackable>
 						<Grid.Row only="computer tablet">
 							<Grid.Column textAlign="center" width={16}>

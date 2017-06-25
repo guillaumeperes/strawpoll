@@ -1,11 +1,10 @@
 import React from "react";
 import { Component } from "react";
-import axios from "axios";
 import { Dropdown } from "semantic-ui-react";
 import { Form } from "semantic-ui-react";
 import { connect } from "react-redux";
+import axios from "axios";
 import { udpateDuplicationCheck } from "../../actions.js";
-import "./DuplicationCheckSelect.css";
 
 class DuplicationCheckSelect extends Component {
 	constructor(props) {
@@ -18,12 +17,23 @@ class DuplicationCheckSelect extends Component {
 		this.handleChange = this.handleChange.bind(this);
 	}
 
-	componentDidMount() {
-		let self = this;
-		self.setState({
+	setLoading() {
+		this.setState({
 			"duplicationChecks": [],
 			"isLoading": true
 		});
+	}
+
+	setOptions(options) {
+		this.setState({
+			"duplicationChecks": options,
+			"isLoading": false
+		});
+	}
+
+	componentDidMount() {
+		let self = this;
+		self.setLoading();
 		axios.get(self.duplicationChecksUrl).then(function(result) {
 			if (typeof(result.data.duplication_checks) !== "undefined") {
 				let items = result.data.duplication_checks.map(function(item) {
@@ -32,16 +42,10 @@ class DuplicationCheckSelect extends Component {
 						"text": item.label
 					};
 				});
-				self.setState({
-					"duplicationChecks": items,
-					"isLoading": false
-				});
+				self.setOptions(items);
 			}
 		}).catch(function(error) {
-			self.setState({
-				"duplicationChecks": [],
-				"isLoading": true
-			});
+			self.setLoading();
 		});
 	}
 
@@ -51,24 +55,28 @@ class DuplicationCheckSelect extends Component {
 		}
 	}
 
-	render() {
-		var dropdown;
+	renderDropdown() {
 		if (this.state.isLoading) {
-			dropdown = <Dropdown placeholder={this.props.label} loading disabled selection fluid options={this.state.duplicationChecks} />
+			return <Dropdown placeholder={this.props.label} loading disabled selection fluid options={this.state.duplicationChecks} />
 		} else {
-			dropdown = <Dropdown placeholder={this.props.label} selection fluid options={this.state.duplicationChecks} onChange={this.handleChange} />
+			return <Dropdown placeholder={this.props.label} selection fluid options={this.state.duplicationChecks} onChange={this.handleChange} />
 		}
+	}
+
+	render() {
 		return (
-			<Form.Field>{dropdown}</Form.Field>
+			<Form.Field>
+				{ this.renderDropdown() }
+			</Form.Field>
 		);
 	}
 }
 
-let mapStateToProps = function(state) {
+const mapStateToProps = function(state) {
 	return {};
 };
 
-let mapDispatchToProps = function(dispatch) {
+const mapDispatchToProps = function(dispatch) {
 	return {
 		"udpateDuplicationCheckInStore": function(id) {
 			dispatch(udpateDuplicationCheck(id));
@@ -77,5 +85,4 @@ let mapDispatchToProps = function(dispatch) {
 };
 
 DuplicationCheckSelect = connect(mapStateToProps, mapDispatchToProps)(DuplicationCheckSelect);
-
 export default DuplicationCheckSelect;

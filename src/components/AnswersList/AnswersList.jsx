@@ -2,11 +2,10 @@ import React from "react";
 import { Component } from "react";
 import { Button } from "semantic-ui-react";
 import { Form } from "semantic-ui-react";
-import AnswerInput from "../AnswerInput/AnswerInput";
 import { connect } from "react-redux";
+import AnswerInput from "../AnswerInput/AnswerInput";
 import { toggleAnswersDeletionStatusForQuestion } from "../../actions.js";
 import { updateMinimumAnswersCountForQuestion } from "../../actions.js";
-import "./AnswersList.css";
 
 class AnswersList extends Component {
 	constructor(props) {
@@ -95,13 +94,13 @@ class AnswersList extends Component {
 	}
 }
 
-let mapStateToProps = function(state) {
+const mapStateToProps = function(state) {
 	return {
 		"questions": state.createPollForm.createPollForm.questions
 	};
 };
 
-let mapDispatchToProps = function(dispatch) {
+const mapDispatchToProps = function(dispatch) {
 	return {
 		"toggleAnswersDeletionStatusForQuestionInStore": function(question, status) {
 			dispatch(toggleAnswersDeletionStatusForQuestion(question, status));

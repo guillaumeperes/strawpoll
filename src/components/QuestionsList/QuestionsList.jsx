@@ -4,7 +4,6 @@ import QuestionContainer from "../QuestionContainer/QuestionContainer";
 import { connect } from "react-redux";
 import { toggleQuestionsDeletionStatus } from "../../actions.js";
 import { updateMinimumQuestionsCount } from "../../actions.js";
-import "./QuestionsList.css";
 
 class QuestionsList extends Component {
 	constructor(props) {
@@ -76,14 +75,14 @@ class QuestionsList extends Component {
 	}
 }
 
-let mapStateToProps = function(state) {
+const mapStateToProps = function(state) {
 	return {
 		"minimumQuestionsCount": state.createPollForm.minimumQuestionsCount,
 		"questionsDeletionAuthorized": state.createPollForm.questionsDeletionAuthorized
 	};
 };
 
-let mapDispatchToProps = function(dispatch) {
+const mapDispatchToProps = function(dispatch) {
 	return {
 		"updateMinimumQuestionsCountInStore": function(value) {
 			dispatch(updateMinimumQuestionsCount(value));

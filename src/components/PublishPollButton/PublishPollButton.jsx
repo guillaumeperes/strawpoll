@@ -7,7 +7,6 @@ import swal from "sweetalert2";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import "sweetalert2/dist/sweetalert2.min.css";
-import "./PublishPollButton.css";
 
 class PublishPollButton extends Component {
 	static propTypes = {
@@ -163,7 +162,7 @@ class PublishPollButton extends Component {
 	}
 }
 
-let mapStateToProps = function(state) {
+const mapStateToProps = function(state) {
 	return {
 		"createPollForm": state.createPollForm.createPollForm
 	};

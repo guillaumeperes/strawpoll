@@ -3,10 +3,9 @@ import { Component } from "react";
 import { Segment } from "semantic-ui-react";
 import { Header } from "semantic-ui-react";
 import { Divider } from "semantic-ui-react";
-import VoteCheckbox from "../VoteCheckbox/VoteCheckbox";
 import { connect } from "react-redux";
+import VoteCheckbox from "../VoteCheckbox/VoteCheckbox";
 import { createQuestionForResponseInStore } from "../../actions.js";
-import "./VoteContainer.css";
 
 class VoteContainer extends Component {
 	componentDidMount() {
@@ -34,11 +33,11 @@ class VoteContainer extends Component {
 	}
 }
 
-let mapStateToProps = function(state) {
+const mapStateToProps = function(state) {
 	return {};
 };
 
-let mapDispatchToProps = function(dispatch) {
+const mapDispatchToProps = function(dispatch) {
 	return {
 		"createQuestionForResponseInStore": function(question, multipleAnswers) {
 			dispatch(createQuestionForResponseInStore(question, multipleAnswers));

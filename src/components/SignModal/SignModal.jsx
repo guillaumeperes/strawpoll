@@ -7,7 +7,6 @@ import { LoginForm } from "../LoginForm/LoginForm";
 import { LoginActions } from "../LoginForm/LoginForm";
 import { RegisterForm } from "../RegisterForm/RegisterForm";
 import { RegisterActions } from "../RegisterForm/RegisterForm";
-import "./SignModal.css";
 
 export default class SignModal extends Component {
 	constructor(props) {

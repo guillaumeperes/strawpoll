@@ -7,7 +7,6 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { withCookies } from "react-cookie";
-import "./VoteButton.css";
 
 class VoteButton extends Component {
 	static propTypes = {
@@ -108,7 +107,7 @@ class VoteButton extends Component {
 	}
 }
 
-let mapStateToProps = function(state) {
+const mapStateToProps = function(state) {
 	return {
 		"respondPollForm": state.respondPollForm.respondPollForm
 	};

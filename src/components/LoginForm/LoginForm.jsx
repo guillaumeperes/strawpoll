@@ -7,7 +7,6 @@ import { Button } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { setEmailForLogin } from "../../actions.js";
 import { setPasswordForLogin } from "../../actions.js";
-import "./LoginForm.css";
 
 class LoginForm extends Component {
 	constructor(props) {
@@ -35,7 +34,7 @@ class LoginForm extends Component {
 			<Form>
 				<Form.Field>
 					<Header as="h5">Votre adresse e-mail</Header>
-					<Input fluid focus type="email" placeholder="E-mail" defaultValue={this.props.email} onChange={this.handleEmailChange}></Input>
+					<Input fluid focus type="email" placeholder="E-mail" onChange={this.handleEmailChange}></Input>
 				</Form.Field>
 				<Form.Field>
 					<Header as="h5">Votre mot de passe</Header>
@@ -47,14 +46,7 @@ class LoginForm extends Component {
 }
 
 const mapStateToFormProps = function(state) {
-	if (typeof(state.loginForm.loginForm.email) === "string") {
-		return {
-			"email": state.loginForm.loginForm.email
-		};
-	}
-	return {
-		"email": ""
-	};
+	return {};
 };
 
 const mapDispatchToFormProps = function(dispatch) {

@@ -336,7 +336,15 @@ let createPollForm = function(state, action) {
 			// Nettoyage du store
 			case REMOVE_CREATE_POLL_DATA: 
 				return Object.assign({}, state, {
-					"createPollForm": {}
+					"createPollForm": {
+						"questionsDeletionAuthorized": false,
+						"minimumQuestionsCount": 1,
+						"duplicationCheckId": false,
+						"userId": false,
+						"hasCaptcha": false,
+						"isDraft": false,
+						"questions": [],
+					}
 				});
 				
 		default: 

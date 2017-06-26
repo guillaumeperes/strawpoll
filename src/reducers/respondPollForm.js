@@ -107,7 +107,9 @@ let respondPollForm = function(state, action) {
 		});
 	} else if (action.type === REMOVE_RESPONSE_DATA) {
 		return Object.assign({}, state, {
-			"respondPollForm": {}
+			"respondPollForm": {
+				"questions": []
+			}
 		});
 	}
 

@@ -132,13 +132,13 @@ class LoginActions extends Component {
 		axios.post(this.loginUrl, data).then(function(result) {
 			self.props.closeSignModal();
 			if (typeof(result.data.data.token) !== "undefined") {
-				self.props.setUserTokenInStore(result.data.data.token);
 				let expires = new Date();
 				expires.setDate(expires.getDate() + 1);
 				self.props.cookies.set("strawpoll_userToken", result.data.data.token, {
 					"path": "/",
 					"expires": expires
 				});
+				self.props.setUserTokenInStore(result.data.data.token);
 			}
 			swal({
 				"title": "Bravo !",

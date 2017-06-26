@@ -21,7 +21,7 @@ class CreatePollForm extends Component {
 	}
 
 	componentWillUnmount() {
-
+		this.props.removeCreatePollDataInStore();
 	}
 
 	render() {

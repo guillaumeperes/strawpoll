@@ -7,6 +7,9 @@ import { Pie } from "react-chartjs-2";
 
 export default class QuestionResults extends Component {
 	calculateRatio(votes, total) {
+		if(!total){
+			return 0;
+		}
 		return Math.round((votes/total)*100);
 	}
 

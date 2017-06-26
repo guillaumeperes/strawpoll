@@ -7,6 +7,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import Router from "../Router/Router";
 import Footer from "../Footer/Footer";
+import { setUserToken } from "../../actions.js";
+import { connect } from "react-redux";
 import "./App.css";
 
 class App extends Component {
@@ -20,6 +22,7 @@ class App extends Component {
 	}
 
 	componentDidMount() {
+		// Strawpoll cookie
 		if (typeof(this.props.cookies.get(this.cookieName)) === "undefined") {
 			let value = uniqid();
 			let expires = new Date();
@@ -29,12 +32,16 @@ class App extends Component {
 				"expires": expires
 			});
 		}
+		// User token cookie
+		if (typeof(this.props.cookies.get("strawpoll_userToken")) !== "undefined") {
+			this.props.setUserTokenInStore(this.props.cookies.get("strawpoll_userToken"));
+		}
 	}
 
 	render() {
 		return (
 			<div id="App">
-				<ToastContainer autoClose={4000} />
+				<ToastContainer autoClose={4000} hideProgressBar={true} />
 				<Router />
 				<Footer />
 			</div>
@@ -42,4 +49,18 @@ class App extends Component {
 	}
 }
 
-export default withCookies(App);
+const mapStateToProps = function(state) {
+	return {};
+};
+
+const mapDispatchToProps = function(dispatch) {
+	return {
+		"setUserTokenInStore": function(token) {
+			dispatch(setUserToken(token));
+		}
+	};
+}
+
+App = connect(mapStateToProps, mapDispatchToProps)(App);
+App = withCookies(App);
+export default App;

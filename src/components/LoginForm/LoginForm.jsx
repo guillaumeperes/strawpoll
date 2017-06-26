@@ -7,6 +7,8 @@ import { Button } from "semantic-ui-react";
 import { connect } from "react-redux";
 import axios from "axios";
 import swal from "sweetalert2";
+import { withCookies } from "react-cookie";
+import PropTypes from "prop-types";
 import { setEmailForLogin } from "../../actions.js";
 import { setPasswordForLogin } from "../../actions.js";
 import { closeSignModal } from "../../actions.js";
@@ -76,6 +78,10 @@ LoginForm = connect(mapStateToFormProps, mapDispatchToFormProps)(LoginForm);
 export { LoginForm };
 
 class LoginActions extends Component {
+	static propTypes = {
+		"cookies": PropTypes.object.isRequired,
+	};
+
 	constructor(props) {
 		super(props);
 		this.handleClose = this.handleClose.bind(this);
@@ -124,6 +130,16 @@ class LoginActions extends Component {
 		data.password = store.password;
 
 		axios.post(this.loginUrl, data).then(function(result) {
+			self.props.closeSignModal();
+			if (typeof(result.data.data.token) !== "undefined") {
+				self.props.setUserTokenInStore(result.data.data.token);
+				let expires = new Date();
+				expires.setDate(expires.getDate() + 1);
+				self.props.cookies.set("strawpoll_userToken", result.data.data.token, {
+					"path": "/",
+					"expires": expires
+				});
+			}
 			swal({
 				"title": "Bravo !",
 				"text": "Vous êtes maintenant connecté à votre compte",
@@ -132,11 +148,6 @@ class LoginActions extends Component {
 				"allowOutsideClick": false,
 				"allowEscapeKey": false,
 				"allowEnterKey": false
-			}).then(function(response) {
-				if (typeof(result.data.data.token) !== "undefined") {
-					self.props.setUserTokenInStore(result.data.data.token);
-				}
-				self.props.closeSignModal();
 			}).catch(swal.noop);
 		}).catch(function(error) {
 			if (typeof(error.response) !== "undefined") {
@@ -176,4 +187,5 @@ const mapDispatchToActionsProps = function(dispatch) {
 }
 
 LoginActions = connect(mapStateToActionsProps, mapDispatchToActionsProps)(LoginActions);
+LoginActions = withCookies(LoginActions);
 export { LoginActions };

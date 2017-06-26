@@ -1,5 +1,6 @@
 import initialStore from "../initialStore.js";
 import { SET_USER_TOKEN } from "../actions.js";
+import { REMOVE_USER_TOKEN } from "../actions.js";
 
 const user = function(state, action) {
 	if (typeof(state) === "undefined") {
@@ -19,6 +20,10 @@ const user = function(state, action) {
 				})
 			});
 		}
+	} else if (action.type === REMOVE_USER_TOKEN) {
+		return Object.assign({}, state, {
+			"user": {}
+		});
 	}
 
 	return state;

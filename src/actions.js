@@ -345,6 +345,7 @@ export function removeRegisterData() {
 }
 
 export const SET_USER_TOKEN = "SET_USER_TOKEN";
+export const REMOVE_USER_TOKEN = "REMOVE_USER_TOKEN";
 
 export function setUserToken(token) {
 	if (typeof(token) === "string") {
@@ -354,4 +355,11 @@ export function setUserToken(token) {
 		};
 	}
 	return {};
+}
+
+export function removeUserToken() {
+	return {
+		"type": REMOVE_USER_TOKEN,
+		"payload": null
+	};
 }

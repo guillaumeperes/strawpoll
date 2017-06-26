@@ -7,6 +7,9 @@ import { Button } from "semantic-ui-react";
 import { connect } from "react-redux";
 import axios from "axios";
 import swal from "sweetalert2";
+import { withCookies } from "react-cookie";
+import { withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
 import { setEmailForRegister } from "../../actions.js";
 import { setPasswordForRegister } from "../../actions.js";
 import { setPasswordConfirmationForRegister } from "../../actions.js";
@@ -92,6 +95,10 @@ RegisterForm = connect(mapStateToFormProps, mapDispatchToFormProps)(RegisterForm
 export { RegisterForm };
 
 class RegisterActions extends Component {
+	static propTypes = {
+		"cookies": PropTypes.object.isRequired
+	};
+
 	constructor(props) {
 		super(props);
 		this.handleClose = this.handleClose.bind(this);
@@ -143,6 +150,16 @@ class RegisterActions extends Component {
 		}
 
 		axios.post(this.registerUrl, data).then(function(result) {
+			self.props.closeSignModal();
+			if (typeof(result.data.data.token) !== "undefined") {
+				self.props.setUserTokenInStore(result.data.data.token);
+				let expires = new Date();
+				expires.setDate(expires.getDate() + 1);
+				self.props.cookies.set("strawpoll_userToken", result.data.data.token, {
+					"path": "/",
+					"expires": expires
+				});
+			}
 			swal({
 				"title": "Bravo !",
 				"text": "Vous êtes maintenant inscrit sur le Strawpoll",
@@ -151,11 +168,6 @@ class RegisterActions extends Component {
 				"allowOutsideClick": false,
 				"allowEscapeKey": false,
 				"allowEnterKey": false
-			}).then(function(response) {
-				if (typeof(result.data.data.token) !== "undefined") {
-					self.props.setUserTokenInStore(result.data.data.token);
-				}
-				self.props.closeSignModal();
 			}).catch(swal.noop);
 		}).catch(function(error) {
 			if (typeof(error.response) !== "undefined") {
@@ -194,4 +206,6 @@ const mapDispatchToActionsProps = function(dispatch) {
 }
 
 RegisterActions = connect(mapStateToActionsProps, mapDispatchToActionsProps)(RegisterActions);
+RegisterActions = withRouter(RegisterActions);
+RegisterActions = withCookies(RegisterActions);
 export { RegisterActions };

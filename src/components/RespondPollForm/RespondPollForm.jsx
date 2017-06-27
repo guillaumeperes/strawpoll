@@ -26,9 +26,7 @@ class RespondPollForm extends Component {
 	constructor(props) {
 		super(props);
 		this.pollUrl = "https://api.strawpoll.guillaumeperes.fr/api/poll/:poll_id/";
-		this.captchaVerifyUrl = "https://www.google.com/recaptcha/api/siteverify";
 		this.cpatchaKey = "6LcXDCcUAAAAADWk2hfoMdqSNotZQVF_Mx6lnxCh";
-		this.secretKey = "6LcXDCcUAAAAADeXVA83JNRM2JCF3TmaURVLxNTZ";
 		this.resultsPollPath = "/poll/:poll_id/results/";
 		this.handleGoToResults = this.handleGoToResults.bind(this);
 		this.handleCaptcha = this.handleCaptcha.bind(this);
@@ -150,25 +148,9 @@ class RespondPollForm extends Component {
 
 	handleCaptcha(token) {
 		if (typeof(token) === "string") {
-			let self = this;
-			let config = {
-				"method": "POST",
-				"url": this.captchaVerifyUrl,
-				"data": {
-					"secret": this.secretKey,
-					"response": token
-				},
-				"headers": {
-					"Content-Type": "application/x-www-form-urlencoded"
-				}
-			};
-			axios(config).then(function(response) {
-				if (typeof(response.data.success) === "boolean" && response.data.success === true) {
-					self.props.setCaptchaStatusForResponseInStore(true);
-				}
-			}).catch(function(error) {
-				self.props.setCaptchaStatusForResponseInStore(false);
-			});
+			this.props.setCaptchaStatusForResponseInStore(true);
+		} else {
+			this.props.setCaptchaStatusForResponseInStore(false);
 		}
 	}
 

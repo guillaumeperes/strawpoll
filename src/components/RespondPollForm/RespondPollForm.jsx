@@ -32,6 +32,7 @@ class RespondPollForm extends Component {
 		this.resultsPollPath = "/poll/:poll_id/results/";
 		this.handleGoToResults = this.handleGoToResults.bind(this);
 		this.handleCaptcha = this.handleCaptcha.bind(this);
+		this.handleCaptchaExpire = this.handleCaptchaExpire.bind(this);
 		this.state = {
 			"isLoading": true,
 			"pollExists": true,
@@ -150,11 +151,18 @@ class RespondPollForm extends Component {
 	handleCaptcha(token) {
 		if (typeof(token) === "string") {
 			let self = this;
-			let data = {
-				"secret": this.secretKey,
-				"response": token
+			let config = {
+				"method": "POST",
+				"url": this.captchaVerifyUrl,
+				"data": {
+					"secret": this.secretKey,
+					"response": token
+				},
+				"headers": {
+					"Content-Type": "application/x-www-form-urlencoded"
+				}
 			};
-			axios.post(this.captchaVerifyUrl, data).then(function(response) {
+			axios(config).then(function(response) {
 				if (typeof(response.data.success) === "boolean" && response.data.success === true) {
 					self.props.setCaptchaStatusForResponseInStore(true);
 				}
@@ -162,6 +170,10 @@ class RespondPollForm extends Component {
 				self.props.setCaptchaStatusForResponseInStore(false);
 			});
 		}
+	}
+
+	handleCaptchaExpire() {
+		this.props.setCaptchaStatusForResponseInStore(false);
 	}
 
 	renderForm() {
@@ -176,7 +188,7 @@ class RespondPollForm extends Component {
 			return (
 				<div>
 					<Divider horizontal inverted></Divider>
-					<ReCAPTCHA id="recaptcha" ref="recaptcha" sitekey={this.cpatchaKey} onChange={this.handleCaptcha} />
+					<ReCAPTCHA id="recaptcha" ref="recaptcha" sitekey={this.cpatchaKey} onChange={this.handleCaptcha} onExpired={this.handleCaptchaExpire} />
 				</div>
 			);
 		}

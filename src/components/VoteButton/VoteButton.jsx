@@ -72,6 +72,14 @@ class VoteButton extends Component {
 		// Cookie (axios ne semble pas aimer le withCredentials)
 		data.strawpoll_cookie = self.props.cookies.get("strawpoll_cookie");
 
+		// Captcha
+		if (typeof(store.hasCaptcha) === "boolean" && store.hasCaptcha === true) {
+			if (typeof(store.captchaStatus) !== "boolean" || store.captchaStatus === false) {
+				self.throwSweetError("Veuillez valider le captcha avant d'envoyer votre vote");
+				return;
+			}
+		}
+
 		// Envoi des données à l'api
 		let route = self.respondPollUrl.replace(":poll_id", self.props.poll);
 		axios.post(route, data).then(function(result) {

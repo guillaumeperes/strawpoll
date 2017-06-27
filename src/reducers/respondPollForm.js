@@ -3,7 +3,9 @@ import { CREATE_QUESTION_FOR_RESPONSE_IN_STORE } from "../actions.js";
 import { ADD_ANSWER_FOR_QUESTION_FOR_RESPONSE } from "../actions.js";
 import { REMOVE_ALL_ANSWERS_FOR_QUESTION_FOR_RESPONSE } from "../actions.js";
 import { REMOVE_ANSWER_FOR_QUESTION_FOR_RESPONSE } from "../actions.js";
-import { REMOVE_RESPONSE_DATA } from "../actions";
+import { REMOVE_RESPONSE_DATA } from "../actions.js";
+import { SET_HAS_CAPTCHA_FOR_RESPONSE } from "../actions.js";
+import { SET_CAPTCHA_STATUS_FOR_RESPONSE } from "../actions.js";
 
 let respondPollForm = function(state, action) {
 	if (typeof(state) === "undefined") {
@@ -108,9 +110,27 @@ let respondPollForm = function(state, action) {
 	} else if (action.type === REMOVE_RESPONSE_DATA) {
 		return Object.assign({}, state, {
 			"respondPollForm": {
-				"questions": []
+				"questions": [],
+				"hasCaptcha": false,
+				"captchaStatus": false
 			}
 		});
+	} else if (action.type === SET_HAS_CAPTCHA_FOR_RESPONSE) {
+		if (typeof(action.payload) === "boolean") {
+			return Object.assign({}, state, {
+				"respondPollForm": Object.assign({}, state.respondPollForm, {
+					"hasCaptcha": action.payload
+				})
+			});
+		}
+	} else if (action.type === SET_CAPTCHA_STATUS_FOR_RESPONSE) {
+		if (typeof(action.payload) === "boolean") {
+			return Object.assign({}, state, {
+				"respondPollForm": Object.assign({}, state.respondPollForm, {
+					"captchaStatus": action.payload
+				})
+			});
+		}
 	}
 
 	return state;

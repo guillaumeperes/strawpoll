@@ -2,3 +2,7 @@
 	min-height: 700px;
 	padding: 1em 0em;
 }
+
+#RespondPollForm #recaptcha {
+	display: inline-block;
+}

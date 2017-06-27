@@ -186,6 +186,8 @@ export const CREATE_QUESTION_FOR_RESPONSE_IN_STORE = "CREATE_QUESTION_FOR_RESPON
 export const ADD_ANSWER_FOR_QUESTION_FOR_RESPONSE = "ADD_ANSWER_FOR_QUESTION_FOR_RESPONSE";
 export const REMOVE_ALL_ANSWERS_FOR_QUESTION_FOR_RESPONSE = "REMOVE_ALL_ANSWERS_FOR_QUESTION_FOR_RESPONSE";
 export const REMOVE_ANSWER_FOR_QUESTION_FOR_RESPONSE = "REMOVE_ANSWER_FOR_QUESTION_FOR_RESPONSE";
+export const SET_HAS_CAPTCHA_FOR_RESPONSE = "SET_HAS_CAPTCHA_FOR_RESPONSE";
+export const SET_CAPTCHA_STATUS_FOR_RESPONSE = "SET_CAPTCHA_STATUS_FOR_RESPONSE";
 export const REMOVE_RESPONSE_DATA = "REMOVE_RESPONSE_DATA";
 
 export function createQuestionForResponseInStore(question, multipleAnswers) {
@@ -232,6 +234,26 @@ export function removeAnswerForQuestionForResponse(question, answer) {
 				"question": question,
 				"answer": answer
 			}
+		};
+	}
+	return {};
+}
+
+export function setHasCaptchaForResponse(hasCaptcha) {
+	if (typeof(hasCaptcha) === "boolean") {
+		return {
+			"type": SET_HAS_CAPTCHA_FOR_RESPONSE,
+			"payload": hasCaptcha
+		};
+	}
+	return {};
+}
+
+export function setCaptchaStatusForResponse(status) {
+	if (typeof(status) === "boolean") {
+		return {
+			"type": SET_CAPTCHA_STATUS_FOR_RESPONSE,
+			"payload": status
 		};
 	}
 	return {};

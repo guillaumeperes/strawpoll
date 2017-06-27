@@ -11,20 +11,27 @@ import { Grid } from "semantic-ui-react";
 import { Icon } from "semantic-ui-react";
 import axios from "axios";
 import { connect } from "react-redux";
+import ReCAPTCHA from "react-google-recaptcha";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import AppTitle from "../AppTitle/AppTitle";
 import VoteContainer from "../VoteContainer/VoteContainer";
 import VoteButton from "../VoteButton/VoteButton";
 import ShareModal from "../ShareModal/ShareModal";
 import { removeResponseData } from "../../actions.js";
+import { setHasCaptchaForResponse } from "../../actions.js";
+import { setCaptchaStatusForResponse } from "../../actions.js";
 import "./RespondPollForm.css";
 
 class RespondPollForm extends Component {
 	constructor(props) {
 		super(props);
 		this.pollUrl = "https://api.strawpoll.guillaumeperes.fr/api/poll/:poll_id/";
+		this.captchaVerifyUrl = "https://www.google.com/recaptcha/api/siteverify";
+		this.cpatchaKey = "6LcXDCcUAAAAADWk2hfoMdqSNotZQVF_Mx6lnxCh";
+		this.secretKey = "6LcXDCcUAAAAADeXVA83JNRM2JCF3TmaURVLxNTZ";
 		this.resultsPollPath = "/poll/:poll_id/results/";
 		this.handleGoToResults = this.handleGoToResults.bind(this);
+		this.handleCaptcha = this.handleCaptcha.bind(this);
 		this.state = {
 			"isLoading": true,
 			"pollExists": true,
@@ -117,6 +124,8 @@ class RespondPollForm extends Component {
 			if (errorThrown) {
 				throw Error();
 			}
+			self.props.setHasCaptchaForResponseInStore(poll.hasCaptcha);
+			self.props.setCaptchaStatusForResponseInStore(false);
 			self.setState({
 				"isLoading": false,
 				"pollExists": true,
@@ -138,11 +147,40 @@ class RespondPollForm extends Component {
 		}
 	}
 
+	handleCaptcha(token) {
+		if (typeof(token) === "string") {
+			let self = this;
+			let data = {
+				"secret": this.secretKey,
+				"response": token
+			};
+			axios.post(this.captchaVerifyUrl, data).then(function(response) {
+				if (typeof(response.data.success) === "boolean" && response.data.success === true) {
+					self.props.setCaptchaStatusForResponseInStore(true);
+				}
+			}).catch(function(error) {
+				self.props.setCaptchaStatusForResponseInStore(false);
+			});
+		}
+	}
+
 	renderForm() {
 		let out = this.state.poll.questions.map(function(question, i) {
 			return <VoteContainer key={i} questionId={question.id} question={question.question} multipleAnswers={question.multipleAnswers} answers={question.answers}></VoteContainer>;
 		});
 		return out;
+	}
+
+	renderCaptcha() {
+		if (this.state.poll.hasCaptcha) {
+			return (
+				<div>
+					<Divider horizontal inverted></Divider>
+					<ReCAPTCHA id="recaptcha" ref="recaptcha" sitekey={this.cpatchaKey} onChange={this.handleCaptcha} />
+				</div>
+			);
+		}
+		return null;
 	}
 
 	render() {
@@ -169,6 +207,7 @@ class RespondPollForm extends Component {
 						<AppTitle></AppTitle>
 						<Divider horizontal inverted></Divider>
 						<Form>{ this.renderForm() }</Form>
+						{ this.renderCaptcha() }
 						<Divider horizontal inverted></Divider>
 						<Grid stackable>
 							<Grid.Row only="computer tablet">
@@ -205,7 +244,13 @@ const mapDispatchToProps = function(dispatch) {
 	return {
 		"removeResponseDataInStore": function() {
 			dispatch(removeResponseData());
-		}
+		},
+		"setHasCaptchaForResponseInStore": function(hasCaptcha) {
+			dispatch(setHasCaptchaForResponse(hasCaptcha));
+		},
+		"setCaptchaStatusForResponseInStore": function(status) {
+			dispatch(setCaptchaStatusForResponse(status));
+		},
 	};
 };
 

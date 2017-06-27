@@ -9,7 +9,9 @@ const initialStore = {
 		"questions": [],
 	},
 	"respondPollForm": {
-		"questions": []
+		"questions": [],
+		"hasCaptcha": false,
+		"captchaStatus": false
 	},
 	"errors": {},
 	"loginForm": {},
